@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -68,4 +67,14 @@
   .vibrant-hover:hover {
     @apply -translate-y-2 scale-[1.02] saturate-[1.2];
   }
+}
+
+@keyframes mesh {
+  0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+  50% { transform: translate(10%, 10%) scale(1.2) rotate(5deg); }
+  100% { transform: translate(-5%, -5%) scale(1.1) rotate(-5deg); }
+}
+
+.animate-mesh {
+  animation: mesh 15s ease-in-out infinite alternate;
 }
