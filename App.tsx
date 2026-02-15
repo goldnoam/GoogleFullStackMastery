@@ -1,9 +1,10 @@
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { 
   Sun, 
   Moon, 
   Search, 
+  X,
   ChevronRight, 
   ExternalLink, 
   BookOpen, 
@@ -20,7 +21,12 @@ import {
   ChevronDown,
   Palette,
   Layers,
-  Link as LinkIcon
+  Link as LinkIcon,
+  Download,
+  Terminal,
+  MousePointer2,
+  Settings2,
+  Cpu
 } from 'lucide-react';
 import { GOOGLE_TOOLS, CATEGORIES } from './constants';
 import { CategoryType, GoogleTool, LanguageCode, GoogleToolContent } from './types';
@@ -37,15 +43,20 @@ const LEVELS = ['All', 'Beginner', 'Intermediate', 'Advanced'];
 type Theme = 'light' | 'dark' | 'colorful';
 
 const App: React.FC = () => {
+  // Theme is 'dark' by default as requested
   const [theme, setTheme] = useState<Theme>('dark');
   const [lang, setLang] = useState<LanguageCode>('en');
   const [fontSizeIndex, setFontSizeIndex] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState<CategoryType | 'All'>('All');
   const [selectedLevel, setSelectedLevel] = useState('All');
   const [selectedRelatedToolId, setSelectedRelatedToolId] = useState<string>('All');
+  const [selectedFeature, setSelectedFeature] = useState('All');
+  const [selectedAdvancedFeature, setSelectedAdvancedFeature] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedToolId, setSelectedToolId] = useState<string | null>(null);
   const [isLangOpen, setIsLangOpen] = useState(false);
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   const t = TRANSLATIONS[lang];
 
@@ -58,9 +69,48 @@ const App: React.FC = () => {
   }, [theme]);
 
   useEffect(() => {
-    document.documentElement.dir = t.dir;
+    document.documentElement.dir = t.dir || 'ltr';
     document.documentElement.lang = lang;
+
+    // Programmatic SEO Meta Tags
+    document.title = "Google Full Stack Mastery - Experience the Future of Development";
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) {
+      metaDesc.setAttribute("content", "Explore the Google ecosystem, AI tools, design frameworks, and scalable cloud solutions for developers.");
+    } else {
+      const meta = document.createElement('meta');
+      meta.name = "description";
+      meta.content = "Explore the Google ecosystem, AI tools, design frameworks, and scalable cloud solutions for developers.";
+      document.head.appendChild(meta);
+    }
+
+    // Programmatic Favicon
+    let favicon = document.querySelector('link[rel="icon"]');
+    if (!favicon) {
+      favicon = document.createElement('link');
+      favicon.setAttribute('rel', 'icon');
+      document.head.appendChild(favicon);
+    }
+    favicon.setAttribute('href', 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-gemini-icon.png');
   }, [lang, t.dir]);
+
+  const allAvailableFeatures = useMemo(() => {
+    const features = new Set<string>();
+    GOOGLE_TOOLS.forEach(tool => {
+      const content = getLocalizedTool(tool.id, lang);
+      content.features.forEach(f => features.add(f));
+    });
+    return ['All', ...Array.from(features).sort()];
+  }, [lang]);
+
+  const allAvailableAdvancedFeatures = useMemo(() => {
+    const advFeatures = new Set<string>();
+    GOOGLE_TOOLS.forEach(tool => {
+      const content = getLocalizedTool(tool.id, lang);
+      content.advancedFeatures.forEach(af => advFeatures.add(af));
+    });
+    return ['All', ...Array.from(advFeatures).sort()];
+  }, [lang]);
 
   const filteredTools = useMemo(() => {
     const query = searchQuery.toLowerCase().trim();
@@ -70,6 +120,9 @@ const App: React.FC = () => {
       const matchesRelated = selectedRelatedToolId === 'All' || tool.relatedTools.includes(selectedRelatedToolId);
       
       const content = getLocalizedTool(tool.id, lang);
+      const matchesFeature = selectedFeature === 'All' || content.features.includes(selectedFeature);
+      const matchesAdvancedFeature = selectedAdvancedFeature === 'All' || content.advancedFeatures.includes(selectedAdvancedFeature);
+
       const matchesSearch = !query || 
         content.name.toLowerCase().includes(query) || 
         content.description.toLowerCase().includes(query) ||
@@ -77,9 +130,38 @@ const App: React.FC = () => {
         content.advancedFeatures.some(af => af.toLowerCase().includes(query)) ||
         content.useCases.some(u => u.toLowerCase().includes(query));
         
-      return matchesCategory && matchesLevel && matchesRelated && matchesSearch;
+      return matchesCategory && matchesLevel && matchesRelated && matchesSearch && matchesFeature && matchesAdvancedFeature;
     });
-  }, [selectedCategory, selectedLevel, selectedRelatedToolId, searchQuery, lang]);
+  }, [selectedCategory, selectedLevel, selectedRelatedToolId, selectedFeature, selectedAdvancedFeature, searchQuery, lang]);
+
+  const searchSuggestions = useMemo(() => {
+    if (!searchQuery.trim()) return [];
+    return GOOGLE_TOOLS
+      .map(tool => getLocalizedTool(tool.id, lang).name)
+      .filter(name => name.toLowerCase().includes(searchQuery.toLowerCase()))
+      .slice(0, 5);
+  }, [searchQuery, lang]);
+
+  const handleExport = () => {
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(filteredTools.map(tool => ({
+      ...tool,
+      ...getLocalizedTool(tool.id, lang)
+    })), null, 2));
+    const downloadAnchorNode = document.createElement('a');
+    downloadAnchorNode.setAttribute("href", dataStr);
+    downloadAnchorNode.setAttribute("download", `google_mastery_search_${new Date().toISOString()}.json`);
+    document.body.appendChild(downloadAnchorNode);
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    const text = e.dataTransfer.getData("text");
+    if (text) {
+      setSearchQuery(prev => prev + text);
+    }
+  };
 
   const toggleTheme = () => {
     setTheme(prev => {
@@ -110,6 +192,15 @@ const App: React.FC = () => {
     return GOOGLE_TOOLS.find(tool => tool.id === selectedToolId) || null;
   }, [selectedToolId]);
 
+  const resetAllFilters = () => {
+    setSearchQuery('');
+    setSelectedLevel('All');
+    setSelectedRelatedToolId('All');
+    setSelectedCategory('All');
+    setSelectedFeature('All');
+    setSelectedAdvancedFeature('All');
+  };
+
   return (
     <div className={`min-h-screen transition-all duration-700 flex flex-col relative ${FONT_SIZES[fontSizeIndex]} selection:bg-google-blue selection:text-white`}>
       <div className="fixed inset-0 z-[-1] pointer-events-none opacity-40 dark:opacity-30 overflow-hidden">
@@ -130,16 +221,59 @@ const App: React.FC = () => {
           </div>
         </div>
 
-        <div className="flex-1 max-w-xl mx-6 hidden lg:block">
-          <div className="relative group">
+        <div className="flex-1 max-w-2xl mx-6 hidden lg:block relative">
+          <div 
+            className="relative group"
+            onDrop={handleDrop}
+            onDragOver={(e) => e.preventDefault()}
+          >
             <Search className="absolute ltr:left-5 rtl:right-5 top-1/2 -translate-y-1/2 text-slate-400 w-6 h-6 group-focus-within:text-google-blue group-focus-within:scale-110 transition-all" />
             <input 
+              ref={searchInputRef}
               type="text" 
               placeholder={t.searchPlaceholder}
-              className="w-full ltr:pl-14 rtl:pr-14 ltr:pr-6 rtl:pl-6 py-4 rounded-[1.5rem] bg-slate-200/40 dark:bg-slate-900/60 theme-colorful:bg-white/20 border-2 border-transparent focus:border-google-blue focus:bg-white dark:focus:bg-slate-900 outline-none transition-all dark:text-white theme-colorful:text-white text-lg shadow-inner"
+              onFocus={() => setIsSearchFocused(true)}
+              onBlur={() => setTimeout(() => setIsSearchFocused(false), 200)}
+              className="w-full ltr:pl-14 rtl:pr-14 ltr:pr-24 rtl:pl-24 py-4 rounded-[1.5rem] bg-slate-200/40 dark:bg-slate-900/60 theme-colorful:bg-white/20 border-2 border-transparent focus:border-google-blue focus:bg-white dark:focus:bg-slate-900 outline-none transition-all dark:text-white theme-colorful:text-white text-lg shadow-inner"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
+            <div className="absolute ltr:right-4 rtl:left-4 top-1/2 -translate-y-1/2 flex items-center gap-2">
+              {searchQuery && (
+                <button 
+                  onClick={() => setSearchQuery('')}
+                  title={t.clearInput}
+                  className="p-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 hover:text-rose-500 transition-all"
+                >
+                  <X size={20} />
+                </button>
+              )}
+              <button 
+                onClick={handleExport}
+                title={t.exportResults}
+                className="p-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 hover:text-google-blue transition-all"
+              >
+                <Download size={20} />
+              </button>
+            </div>
+
+            {/* Autocomplete Dropdown */}
+            {isSearchFocused && searchSuggestions.length > 0 && (
+              <div className="absolute top-full left-0 right-0 mt-3 bg-white dark:bg-slate-900 rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] border border-slate-200 dark:border-slate-800 overflow-hidden z-[100] animate-in slide-in-from-top-4 duration-200">
+                <div className="p-2">
+                  {searchSuggestions.map((suggestion, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setSearchQuery(suggestion)}
+                      className="w-full px-5 py-4 text-left rtl:text-right rounded-2xl hover:bg-google-blue/10 transition-all flex items-center gap-4 text-sm font-bold dark:text-white"
+                    >
+                      <Terminal size={16} className="text-google-blue" />
+                      {suggestion}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
@@ -233,9 +367,10 @@ const App: React.FC = () => {
           ))}
         </div>
 
-        {/* Secondary Search Filters (Level and Related) */}
+        {/* Secondary Search Filters (Level, Related, Feature, Advanced Feature) */}
         <div className="flex flex-wrap items-center justify-center gap-4 mb-20 animate-in fade-in duration-700">
-           <div className="flex items-center gap-3 px-6 py-3 rounded-2xl bg-slate-200/50 dark:bg-slate-800/50 border dark:border-slate-700">
+           {/* Level Filter */}
+           <div className="flex items-center gap-3 px-6 py-3 rounded-2xl bg-slate-200/50 dark:bg-slate-800/50 border dark:border-slate-700 shadow-lg">
               <Layers size={18} className="text-slate-400" />
               <span className="text-xs font-black uppercase tracking-widest text-slate-500 mr-2">{t.filterLevel}:</span>
               <div className="flex gap-2">
@@ -255,13 +390,46 @@ const App: React.FC = () => {
               </div>
            </div>
 
-           <div className="flex items-center gap-3 px-6 py-3 rounded-2xl bg-slate-200/50 dark:bg-slate-800/50 border dark:border-slate-700">
-              <LinkIcon size={18} className="text-slate-400" />
+           {/* Feature Filter */}
+           <div className="flex items-center gap-3 px-6 py-3 rounded-2xl bg-slate-200/50 dark:bg-slate-800/50 border dark:border-slate-700 shadow-lg group">
+              <Sparkles size={18} className="text-slate-400 group-hover:text-google-yellow transition-colors" />
+              <span className="text-xs font-black uppercase tracking-widest text-slate-500 mr-2">{t.filterFeature}:</span>
+              <select 
+                value={selectedFeature} 
+                onChange={(e) => setSelectedFeature(e.target.value)}
+                className="bg-transparent text-[11px] font-black uppercase tracking-widest text-google-blue outline-none cursor-pointer pr-4 max-w-[150px]"
+              >
+                <option value="All">{t.allFeatures}</option>
+                {allAvailableFeatures.filter(f => f !== 'All').map(f => (
+                  <option key={f} value={f}>{f}</option>
+                ))}
+              </select>
+           </div>
+
+           {/* Advanced Feature Filter */}
+           <div className="flex items-center gap-3 px-6 py-3 rounded-2xl bg-slate-200/50 dark:bg-slate-800/50 border dark:border-slate-700 shadow-lg group">
+              <Settings2 size={18} className="text-slate-400 group-hover:text-google-red transition-colors" />
+              <span className="text-xs font-black uppercase tracking-widest text-slate-500 mr-2">{t.filterAdvancedFeature}:</span>
+              <select 
+                value={selectedAdvancedFeature} 
+                onChange={(e) => setSelectedAdvancedFeature(e.target.value)}
+                className="bg-transparent text-[11px] font-black uppercase tracking-widest text-google-blue outline-none cursor-pointer pr-4 max-w-[150px]"
+              >
+                <option value="All">{t.allAdvancedFeatures}</option>
+                {allAvailableAdvancedFeatures.filter(af => af !== 'All').map(af => (
+                  <option key={af} value={af}>{af}</option>
+                ))}
+              </select>
+           </div>
+
+           {/* Related Tool Filter */}
+           <div className="flex items-center gap-3 px-6 py-3 rounded-2xl bg-slate-200/50 dark:bg-slate-800/50 border dark:border-slate-700 shadow-lg group">
+              <LinkIcon size={18} className="text-slate-400 group-hover:text-google-blue transition-colors" />
               <span className="text-xs font-black uppercase tracking-widest text-slate-500 mr-2">{t.filterRelated}:</span>
               <select 
                 value={selectedRelatedToolId} 
                 onChange={(e) => setSelectedRelatedToolId(e.target.value)}
-                className="bg-transparent text-[11px] font-black uppercase tracking-widest text-google-blue outline-none cursor-pointer"
+                className="bg-transparent text-[11px] font-black uppercase tracking-widest text-google-blue outline-none cursor-pointer pr-4 max-w-[150px]"
               >
                 <option value="All">All Connections</option>
                 {GOOGLE_TOOLS.map(tool => (
@@ -334,7 +502,7 @@ const App: React.FC = () => {
                  <Filter size={80} className="text-slate-300 dark:text-slate-700 theme-colorful:text-white/40 animate-bounce" />
                </div>
                <p className="text-4xl font-display font-black dark:text-white theme-colorful:text-white mb-6">Oops! No tools matching current filters</p>
-               <button onClick={() => { setSearchQuery(''); setSelectedLevel('All'); setSelectedRelatedToolId('All'); setSelectedCategory('All'); }} className="px-12 py-5 bg-gradient-to-r from-google-blue to-indigo-600 text-white rounded-3xl font-black text-lg uppercase tracking-widest shadow-2xl hover:scale-105 transition-all">Reset All Filters</button>
+               <button onClick={resetAllFilters} className="px-12 py-5 bg-gradient-to-r from-google-blue to-indigo-600 text-white rounded-3xl font-black text-lg uppercase tracking-widest shadow-2xl hover:scale-105 transition-all">Reset All Filters</button>
             </div>
           )}
         </div>

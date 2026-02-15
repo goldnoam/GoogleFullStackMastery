@@ -27,157 +27,72 @@ export const CATEGORIES = [
 ];
 
 export const GOOGLE_TOOLS: GoogleTool[] = [
+  // MODELS
   {
-    id: 'gemini-api',
+    id: 'gemini-3-flash',
     category: CategoryType.MODELS,
     icon: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-gemini-icon.png',
     link: 'https://ai.google.dev',
     level: 'Advanced',
-    relatedTools: ['notebook-llm', 'vertex-ai', 'project-idx']
+    relatedTools: ['gemini-3-pro', 'gemini-3-flash-lite']
   },
   {
-    id: 'notebook-llm',
-    category: CategoryType.RESEARCH,
-    icon: 'https://www.gstatic.com/images/branding/product/2x/docs_96dp.png',
-    link: 'https://notebooklm.google.com',
+    id: 'gemini-3-flash-lite',
+    category: CategoryType.MODELS,
+    icon: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-gemini-icon.png',
+    link: 'https://ai.google.dev',
     level: 'Intermediate',
-    relatedTools: ['illuminate', 'gemini-api', 'google-deepmind']
+    relatedTools: ['gemini-3-flash']
   },
   {
-    id: 'gemini-pro-vision',
+    id: 'gemini-3-pro',
     category: CategoryType.MODELS,
     icon: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-gemini-icon.png',
     link: 'https://ai.google.dev',
     level: 'Advanced',
-    relatedTools: ['gemini-api', 'google-cloud-ai']
+    relatedTools: ['gemini-deep-research', 'gemma']
+  },
+  {
+    id: 'gemini-deep-research',
+    category: CategoryType.MODELS,
+    icon: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-gemini-icon.png',
+    link: 'https://deepmind.google',
+    level: 'Advanced',
+    relatedTools: ['gemini-3-pro', 'notebook-llm']
+  },
+  {
+    id: 'gemma',
+    category: CategoryType.MODELS,
+    icon: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-gemini-icon.png',
+    link: 'https://ai.google.dev/gemma',
+    level: 'Intermediate',
+    relatedTools: ['gemini-3-pro', 'google-deepmind']
+  },
+
+  // VIDEO
+  {
+    id: 'veo-3-1',
+    category: CategoryType.VIDEO,
+    icon: 'https://www.gstatic.com/images/branding/product/2x/video_96dp.png',
+    link: 'https://deepmind.google/technologies/veo/',
+    level: 'Advanced',
+    relatedTools: ['flow', 'google-vids']
   },
   {
     id: 'flow',
-    category: CategoryType.LABS,
+    category: CategoryType.VIDEO,
     icon: 'https://www.gstatic.com/images/branding/product/2x/assistant_96dp.png',
     link: 'https://labs.google/flow',
     level: 'Intermediate',
-    relatedTools: ['creative-canvas', 'gemini-api']
+    relatedTools: ['veo-3-1', 'videofx']
   },
   {
-    id: 'portraits',
-    category: CategoryType.LABS,
-    icon: 'https://www.gstatic.com/images/branding/product/2x/photos_96dp.png',
-    link: 'https://labs.google/portraits',
-    level: 'Beginner',
-    relatedTools: ['imagefx', 'imagen-4']
-  },
-  {
-    id: 'veo-3',
+    id: 'google-vids',
     category: CategoryType.VIDEO,
-    icon: 'https://lh3.googleusercontent.com/F-C9pE0Z8_Y9Q0X4X7v3L9=w128',
-    link: 'https://deepmind.google/technologies/veo/',
-    level: 'Advanced',
-    relatedTools: ['imagen-4', 'videofx']
-  },
-  {
-    id: 'gentype',
-    category: CategoryType.LABS,
-    icon: 'https://www.gstatic.com/images/branding/product/2x/photos_96dp.png',
-    link: 'https://labs.google/gentype',
-    level: 'Beginner',
-    relatedTools: ['imagefx', 'imagen-4']
-  },
-  {
-    id: 'mixboard',
-    category: CategoryType.LABS,
-    icon: 'https://www.gstatic.com/images/branding/product/2x/music_96dp.png',
-    link: 'https://labs.google/mixboard',
-    level: 'Intermediate',
-    relatedTools: ['musicfx', 'gemini-tts']
-  },
-  {
-    id: 'musicfx',
-    category: CategoryType.LABS,
-    icon: 'https://www.gstatic.com/images/branding/product/2x/music_96dp.png',
-    link: 'https://aitestkitchen.withgoogle.com/tools/music-fx',
-    level: 'Beginner',
-    relatedTools: ['videofx', 'gemini-tts']
-  },
-  {
-    id: 'project-genie',
-    category: CategoryType.AGENTS,
-    icon: 'https://www.gstatic.com/images/branding/product/2x/assistant_96dp.png',
-    link: 'https://deepmind.google/technologies/genie/',
-    level: 'Advanced',
-    relatedTools: ['veo-3', 'mediapipe']
-  },
-  {
-    id: 'opal',
-    category: CategoryType.RESEARCH,
-    icon: 'https://www.gstatic.com/images/branding/product/2x/docs_96dp.png',
-    link: 'https://labs.google/opal',
-    level: 'Advanced',
-    relatedTools: ['deep-think', 'notebook-llm']
-  },
-  {
-    id: 'stitch',
-    category: CategoryType.DESIGN,
     icon: 'https://www.gstatic.com/images/branding/product/2x/video_96dp.png',
-    link: 'https://labs.google/stitch',
-    level: 'Intermediate',
-    relatedTools: ['project-idx', 'material-design']
-  },
-  {
-    id: 'creative-canvas',
-    category: CategoryType.LABS,
-    icon: 'https://www.gstatic.com/images/branding/product/2x/assistant_96dp.png',
-    link: 'https://labs.google/cc',
+    link: 'https://workspace.google.com/products/vids/',
     level: 'Beginner',
-    relatedTools: ['material-design', 'google-docs']
-  },
-  {
-    id: 'gemini-live',
-    category: CategoryType.VOICE,
-    icon: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-gemini-icon.png',
-    link: 'https://ai.google.dev',
-    level: 'Advanced',
-    relatedTools: ['musicfx', 'google-duo']
-  },
-  {
-    id: 'imagen-4',
-    category: CategoryType.IMAGES,
-    icon: 'https://www.gstatic.com/images/branding/product/2x/photos_96dp.png',
-    link: 'https://deepmind.google/technologies/imagen-3/',
-    level: 'Advanced',
-    relatedTools: ['imagefx', 'veo-3']
-  },
-  {
-    id: 'illuminate',
-    category: CategoryType.LABS,
-    icon: 'https://www.gstatic.com/images/branding/product/2x/docs_96dp.png',
-    link: 'https://illuminate.withgoogle.com/',
-    level: 'Intermediate',
-    relatedTools: ['notebook-llm', 'deep-think']
-  },
-  {
-    id: 'vertex-ai-agent-builder',
-    category: CategoryType.AGENTS,
-    icon: 'https://www.gstatic.com/images/branding/product/2x/vertex_ai_96dp.png',
-    link: 'https://cloud.google.com/vertex-ai-agent-builder',
-    level: 'Advanced',
-    relatedTools: ['gemini-api', 'google-cloud-ai']
-  },
-  {
-    id: 'imagefx',
-    category: CategoryType.IMAGES,
-    icon: 'https://www.gstatic.com/images/branding/product/2x/photos_96dp.png',
-    link: 'https://aitestkitchen.withgoogle.com/tools/image-fx',
-    level: 'Beginner',
-    relatedTools: ['imagen-4', 'say-what-you-see']
-  },
-  {
-    id: 'textfx',
-    category: CategoryType.LABS,
-    icon: 'https://www.gstatic.com/images/branding/product/2x/docs_96dp.png',
-    link: 'https://textfx.withgoogle.com/',
-    level: 'Intermediate',
-    relatedTools: ['notebook-llm', 'gemini-api']
+    relatedTools: ['google-docs', 'flow']
   },
   {
     id: 'videofx',
@@ -185,62 +100,168 @@ export const GOOGLE_TOOLS: GoogleTool[] = [
     icon: 'https://www.gstatic.com/images/branding/product/2x/video_96dp.png',
     link: 'https://labs.google/videofx',
     level: 'Advanced',
-    relatedTools: ['veo-3', 'imagefx']
+    relatedTools: ['veo-3-1', 'imagefx']
+  },
+
+  // DESIGN
+  {
+    id: 'stitch-design',
+    category: CategoryType.DESIGN,
+    icon: 'https://www.gstatic.com/images/branding/product/2x/video_96dp.png',
+    link: 'https://labs.google/stitch',
+    level: 'Advanced',
+    relatedTools: ['whisk', 'nanobanana']
   },
   {
-    id: 'say-what-you-see',
-    category: CategoryType.LABS,
-    icon: 'https://www.gstatic.com/images/branding/product/2x/assistant_96dp.png',
-    link: 'https://artsandculture.google.com/experiment/say-what-you-see/',
-    level: 'Beginner',
-    relatedTools: ['imagefx', 'imagen-4']
+    id: 'whisk',
+    category: CategoryType.DESIGN,
+    icon: 'https://www.gstatic.com/images/branding/product/2x/photos_96dp.png',
+    link: 'https://labs.google/whisk',
+    level: 'Intermediate',
+    relatedTools: ['stitch-design', 'nanobanana']
   },
+  {
+    id: 'nanobanana',
+    category: CategoryType.DESIGN,
+    icon: 'https://www.gstatic.com/images/branding/product/2x/photos_96dp.png',
+    link: 'https://labs.google/nanobanana',
+    level: 'Beginner',
+    relatedTools: ['whisk', 'stitch-design']
+  },
+
+  // CODING
   {
     id: 'gemini-cli',
     category: CategoryType.CODING,
     icon: 'https://www.gstatic.com/images/branding/product/2x/chrome_96dp.png',
     link: 'https://github.com/google/generative-ai-cli',
     level: 'Intermediate',
-    relatedTools: ['gemini-api', 'project-idx']
+    relatedTools: ['antigravity', 'jules']
   },
   {
-    id: 'firebase',
-    category: CategoryType.CODING,
-    icon: 'https://www.gstatic.com/mobilesdk/160503_mobilesdk/logo/2x/firebase_96dp.png',
-    link: 'https://firebase.google.com',
-    level: 'Intermediate',
-    relatedTools: ['google-cloud-ai', 'android-studio']
-  },
-  {
-    id: 'project-idx',
+    id: 'antigravity',
     category: CategoryType.CODING,
     icon: 'https://idx.dev/static/images/idx-logo.png',
-    link: 'https://idx.dev',
-    level: 'Intermediate',
-    relatedTools: ['firebase', 'gemini-api']
-  },
-  {
-    id: 'deep-think',
-    category: CategoryType.RESEARCH,
-    icon: 'https://www.gstatic.com/images/branding/product/2x/docs_96dp.png',
-    link: 'https://deepmind.google',
+    link: 'https://labs.google/antigravity',
     level: 'Advanced',
-    relatedTools: ['gemini-api', 'notebook-llm']
+    relatedTools: ['gemini-cli', 'jules']
   },
   {
-    id: 'google-deepmind',
-    category: CategoryType.RESEARCH,
-    icon: 'https://deepmind.google/static/images/favicon.png',
-    link: 'https://deepmind.google',
+    id: 'jules',
+    category: CategoryType.CODING,
+    icon: 'https://www.gstatic.com/images/branding/product/2x/assistant_96dp.png',
+    link: 'https://labs.google/jules',
     level: 'Advanced',
-    relatedTools: ['deep-think', 'gemini-api']
+    relatedTools: ['antigravity', 'gemini-cli']
   },
+
+  // AI AGENTS
   {
-    id: 'mediapipe',
+    id: 'google-adk',
     category: CategoryType.AGENTS,
     icon: 'https://www.gstatic.com/images/branding/product/2x/assistant_96dp.png',
-    link: 'https://mediapipe.dev',
+    link: 'https://labs.google/adk',
     level: 'Advanced',
-    relatedTools: ['android-studio', 'gemini-api']
+    relatedTools: ['google-a2a', 'filesearch-api']
+  },
+  {
+    id: 'google-a2a',
+    category: CategoryType.AGENTS,
+    icon: 'https://www.gstatic.com/images/branding/product/2x/assistant_96dp.png',
+    link: 'https://labs.google/a2a',
+    level: 'Advanced',
+    relatedTools: ['google-adk', 'ai-mode']
+  },
+  {
+    id: 'filesearch-api',
+    category: CategoryType.AGENTS,
+    icon: 'https://www.gstatic.com/images/branding/product/2x/search_96dp.png',
+    link: 'https://ai.google.dev/filesearch',
+    level: 'Advanced',
+    relatedTools: ['google-adk', 'notebook-llm']
+  },
+  {
+    id: 'ai-mode',
+    category: CategoryType.AGENTS,
+    icon: 'https://www.gstatic.com/images/branding/product/2x/search_96dp.png',
+    link: 'https://labs.google/aimode',
+    level: 'Intermediate',
+    relatedTools: ['google-a2a', 'gemini-3-pro']
+  },
+
+  // RESEARCH
+  {
+    id: 'notebook-llm',
+    category: CategoryType.RESEARCH,
+    icon: 'https://www.gstatic.com/images/branding/product/2x/docs_96dp.png',
+    link: 'https://notebooklm.google.com',
+    level: 'Intermediate',
+    relatedTools: ['pomelli', 'illuminate']
+  },
+  {
+    id: 'pomelli',
+    category: CategoryType.RESEARCH,
+    icon: 'https://www.gstatic.com/images/branding/product/2x/docs_96dp.png',
+    link: 'https://labs.google/pomelli',
+    level: 'Intermediate',
+    relatedTools: ['notebook-llm']
+  },
+
+  // LABS
+  {
+    id: 'mixboard',
+    category: CategoryType.LABS,
+    icon: 'https://www.gstatic.com/images/branding/product/2x/music_96dp.png',
+    link: 'https://labs.google/mixboard',
+    level: 'Intermediate',
+    relatedTools: ['musicfx']
+  },
+  {
+    id: 'musicfx',
+    category: CategoryType.LABS,
+    icon: 'https://www.gstatic.com/images/branding/product/2x/music_96dp.png',
+    link: 'https://aitestkitchen.withgoogle.com/tools/music-fx',
+    level: 'Beginner',
+    relatedTools: ['mixboard', 'videofx']
+  },
+  {
+    id: 'imagefx',
+    category: CategoryType.IMAGES,
+    icon: 'https://www.gstatic.com/images/branding/product/2x/photos_96dp.png',
+    link: 'https://aitestkitchen.withgoogle.com/tools/image-fx',
+    level: 'Beginner',
+    relatedTools: ['imagen-4', 'nanobanana']
+  },
+  {
+    id: 'gentype',
+    category: CategoryType.LABS,
+    icon: 'https://www.gstatic.com/images/branding/product/2x/photos_96dp.png',
+    link: 'https://labs.google/gentype',
+    level: 'Beginner',
+    relatedTools: ['imagefx']
+  },
+  {
+    id: 'textfx',
+    category: CategoryType.LABS,
+    icon: 'https://www.gstatic.com/images/branding/product/2x/docs_96dp.png',
+    link: 'https://textfx.withgoogle.com/',
+    level: 'Intermediate',
+    relatedTools: ['gemini-3-pro']
+  },
+  {
+    id: 'illuminate',
+    category: CategoryType.LABS,
+    icon: 'https://www.gstatic.com/images/branding/product/2x/docs_96dp.png',
+    link: 'https://illuminate.withgoogle.com/',
+    level: 'Intermediate',
+    relatedTools: ['notebook-llm']
+  },
+  {
+    id: 'creative-canvas',
+    category: CategoryType.LABS,
+    icon: 'https://www.gstatic.com/images/branding/product/2x/assistant_96dp.png',
+    link: 'https://labs.google/cc',
+    level: 'Beginner',
+    relatedTools: ['stitch-design']
   }
 ];
