@@ -1,0 +1,158 @@
+
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Full Stack Mastery - Ultimate AI Dev Course 2026</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Master the complete Google ecosystem: Gemini API, Project IDX, Firebase, and more. A colorful, interactive course for professional Full Stack Developers.">
+    <meta name="keywords" content="Gemini API, Google Cloud, Full Stack Developer, AI Course, Project IDX, Firebase, Google Tools, Material Design, Web Development">
+    <meta name="author" content="Noam Gold AI">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="Google Full Stack Mastery - Ultimate AI Dev Course">
+    <meta property="og:description" content="Join the most comprehensive course on Google's modern development stack.">
+    <meta property="og:image" content="https://fonts.gstatic.com/s/i/short-term/release/googleg/assistant/default/24px.svg">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="https://fonts.gstatic.com/s/i/short-term/release/googleg/assistant/default/24px.svg" type="image/svg+xml">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        google: {
+                            blue: '#4285F4',
+                            red: '#EA4335',
+                            yellow: '#FBBC04',
+                            green: '#34A853'
+                        },
+                        dark: {
+                            bg: '#020617',
+                            card: '#0F172A',
+                            text: '#F8FAFC'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Plus Jakarta Sans', 'sans-serif']
+                    },
+                    animation: {
+                        'gradient-x': 'gradient-x 15s ease infinite',
+                        'mesh': 'mesh 15s ease-in-out infinite alternate',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        'gradient-x': {
+                            '0%, 100%': { 'background-size': '200% 200%', 'background-position': 'left center' },
+                            '50%': { 'background-size': '200% 200%', 'background-position': 'right center' },
+                        },
+                        'mesh': {
+                            '0%': { transform: 'translate(0, 0) scale(1) rotate(0deg)' },
+                            '50%': { transform: 'translate(10%, 10%) scale(1.2) rotate(5deg)' },
+                            '100%': { transform: 'translate(-5%, -5%) scale(1.1) rotate(-5deg)' },
+                        },
+                        'float': {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
+                    }
+                }
+            },
+            plugins: [
+                function({ addVariant }) {
+                    addVariant('theme-colorful', '.theme-colorful &')
+                }
+            ]
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; transition: background-color 0.3s ease; overflow-x: hidden; }
+        .font-display { font-family: 'Plus Jakarta Sans', sans-serif; }
+        
+        .glass-morphism {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .dark .glass-morphism {
+            background: rgba(2, 6, 23, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .theme-colorful .glass-morphism {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .mesh-gradient {
+            position: fixed;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            z-index: -1;
+            opacity: 0.2;
+            background-color: #ffffff;
+            background-image: 
+                radial-gradient(at 0% 0%, #4285F4 0, transparent 50%), 
+                radial-gradient(at 50% 0%, #EA4335 0, transparent 50%), 
+                radial-gradient(at 100% 0%, #FBBC04 0, transparent 50%),
+                radial-gradient(at 0% 100%, #34A853 0, transparent 50%),
+                radial-gradient(at 80% 80%, #9333ea 0, transparent 50%),
+                radial-gradient(at 100% 100%, #4285F4 0, transparent 50%);
+            transition: all 1s ease;
+        }
+        .dark .mesh-gradient {
+            background-color: #020617;
+            opacity: 0.4;
+        }
+        .theme-colorful .mesh-gradient {
+            background-color: #1e1b4b;
+            opacity: 0.9;
+            filter: saturate(1.8) contrast(1.2);
+        }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .colorful-shadow {
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.1);
+        }
+        .dark .colorful-shadow {
+            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .vibrant-hover:hover {
+            transform: translateY(-8px) scale(1.02);
+            filter: saturate(1.2);
+        }
+    </style>
+    <!-- AdSense Header Script -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0000000000000000" crossorigin="anonymous"></script>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.4",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "lucide-react": "https://esm.sh/lucide-react@^0.564.0"
+  }
+}
+</script>
+</head>
+<body class="bg-slate-50 dark:bg-dark-bg theme-colorful:bg-slate-950 text-slate-900 dark:text-dark-text theme-colorful:text-white min-h-screen transition-colors">
+    <div class="mesh-gradient animate-mesh"></div>
+    <div id="root"></div>
+</body>
+</html>
