@@ -1,4 +1,3 @@
-
 import { LanguageCode, GoogleToolContent } from './types';
 
 export const TRANSLATIONS: Record<LanguageCode, any> = {
@@ -332,6 +331,18 @@ export const TRANSLATIONS: Record<LanguageCode, any> = {
           { title: 'Synthesis', description: 'Ask cross-document questions.' },
           { title: 'Report', description: 'Generate a comprehensive summary.' }
         ]
+      },
+      'project-genie': {
+        name: 'Project Genie',
+        description: 'A foundation model that creates interactive 2D environments from single images or descriptions.',
+        features: ['Environment Generation', 'Playable Characters', 'Neural Physics'],
+        useCases: ['Game Prototyping', 'Visual Storytelling', 'Physics Simulations'],
+        advancedFeatures: ['Action-conditioned video generation', 'Procedural game mechanics'],
+        tutorial: [
+          { title: 'Base', description: 'Provide a starting image or a textual world description.' },
+          { title: 'Animate', description: 'The model generates a consistent interactive video frame.' },
+          { title: 'Control', description: 'Input actions (WASD) to see how the neural environment reacts.' }
+        ]
       }
     }
   },
@@ -378,7 +389,7 @@ export const TRANSLATIONS: Record<LanguageCode, any> = {
   hi: { 
     title: "गूगल फुल स्टैक मास्टरी",
     subtitle: "विकास के भविष्य का अनुभव करें",
-    description: "गूगल पारिस्थितिकी तंत्र का पता लगाने के लिए डेवलपर्स के लिए एक उच्च-रंगीन केंद्र।",
+    description: "गूगल पारिस्थितिकी तंत्र का पता लगाने के लिए डेवलपर्स के लिए एक उच्च-רנגי केंद्र।",
     tools: {}
   },
   de: { 

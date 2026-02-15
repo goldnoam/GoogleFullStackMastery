@@ -1,6 +1,23 @@
+
 import React, { useState, useEffect, useMemo } from 'react';
-import { X, ExternalLink, ChevronRight, ChevronLeft, CheckCircle2, Terminal, Lightbulb, Link2 } from 'lucide-react';
-import { GoogleTool, LanguageCode, GoogleToolContent } from '../types';
+import { 
+  X, 
+  ExternalLink, 
+  ChevronRight, 
+  ChevronLeft, 
+  CheckCircle2, 
+  Terminal, 
+  Lightbulb, 
+  Link2,
+  Pause,
+  RotateCcw,
+  Gamepad2,
+  ArrowUp,
+  ArrowDown,
+  ArrowLeft,
+  ArrowRight as ArrowRightIcon
+} from 'lucide-react';
+import { GoogleTool, LanguageCode, GoogleToolContent, CategoryType } from '../types';
 import { GOOGLE_TOOLS } from '../constants';
 import { TRANSLATIONS, getLocalizedTool } from '../i18n';
 
@@ -15,6 +32,7 @@ export const ToolDetailsModal: React.FC<ToolDetailsModalProps> = ({ tool, onClos
   const t = TRANSLATIONS[lang];
   const isRtl = t.dir === 'rtl';
   const [activeStep, setActiveStep] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
 
   const content: GoogleToolContent = useMemo(() => getLocalizedTool(tool.id, lang), [tool.id, lang]);
 
@@ -34,7 +52,14 @@ export const ToolDetailsModal: React.FC<ToolDetailsModalProps> = ({ tool, onClos
     }
   };
 
+  const resetTutorial = () => {
+    setActiveStep(0);
+    setIsPaused(false);
+  };
+
   const getToolById = (id: string) => GOOGLE_TOOLS.find(t => t.id === id);
+
+  const isInteractive = tool.id === 'project-genie' || tool.category === CategoryType.AGENTS || tool.id === 'flow';
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8 animate-in fade-in duration-300" role="dialog" aria-modal="true">
@@ -127,9 +152,12 @@ export const ToolDetailsModal: React.FC<ToolDetailsModalProps> = ({ tool, onClos
               </div>
             </div>
 
-            <div className="bg-slate-50 dark:bg-slate-950/50 rounded-3xl p-6 md:p-8 border border-slate-100 dark:border-slate-800 flex flex-col">
+            <div className="bg-slate-50 dark:bg-slate-950/50 rounded-3xl p-6 md:p-8 border border-slate-100 dark:border-slate-800 flex flex-col relative overflow-hidden">
               <div className="flex items-center justify-between mb-6">
-                <h3 className="font-bold dark:text-white">{t.miniTutorial}</h3>
+                <h3 className="font-bold dark:text-white flex items-center gap-2">
+                  {t.miniTutorial}
+                  {isInteractive && <Gamepad2 size={16} className="text-google-red" />}
+                </h3>
                 <div className="flex gap-1">
                   {content.tutorial.map((_, i) => (
                     <div 
@@ -141,7 +169,7 @@ export const ToolDetailsModal: React.FC<ToolDetailsModalProps> = ({ tool, onClos
               </div>
 
               {content.tutorial.length > 0 && (
-                <div className="flex-grow animate-in slide-in-from-right-4 duration-300" key={`${tool.id}-${activeStep}`}>
+                <div className={`flex-grow animate-in slide-in-from-right-4 duration-300 ${isPaused ? 'blur-sm opacity-50' : ''}`} key={`${tool.id}-${activeStep}`}>
                   <h4 className="text-xl font-display font-bold mb-3 dark:text-slate-200">
                     {content.tutorial[activeStep].title}
                   </h4>
@@ -155,13 +183,43 @@ export const ToolDetailsModal: React.FC<ToolDetailsModalProps> = ({ tool, onClos
                     </div>
                   )}
 
-                  {content.tutorial[activeStep].actionLabel && (
-                    <button className="w-full py-3 border-2 border-google-blue text-google-blue rounded-xl font-bold hover:bg-google-blue hover:text-white transition-all">
-                      {content.tutorial[activeStep].actionLabel}
-                    </button>
+                  {isInteractive && (
+                    <div className="mt-8 space-y-4">
+                       <div className="flex justify-center gap-2 md:hidden">
+                          <div className="grid grid-cols-3 gap-2">
+                            <div />
+                            <div className="w-10 h-10 bg-slate-200 dark:bg-slate-800 rounded flex items-center justify-center"><ArrowUp size={16} /></div>
+                            <div />
+                            <div className="w-10 h-10 bg-slate-200 dark:bg-slate-800 rounded flex items-center justify-center"><ArrowLeft size={16} /></div>
+                            <div className="w-10 h-10 bg-slate-200 dark:bg-slate-800 rounded flex items-center justify-center"><ArrowDown size={16} /></div>
+                            <div className="w-10 h-10 bg-slate-200 dark:bg-slate-800 rounded flex items-center justify-center"><ArrowRightIcon size={16} /></div>
+                          </div>
+                       </div>
+                       <div className="hidden md:block text-center text-xs text-slate-500 font-mono tracking-widest">
+                          [ PRESS WASD TO INTERACT ]
+                       </div>
+                    </div>
                   )}
                 </div>
               )}
+
+              {/* Game Overlay Controls */}
+              <div className="absolute top-2 right-2 flex gap-2">
+                <button 
+                  onClick={() => setIsPaused(!isPaused)} 
+                  className="p-2 bg-white/80 dark:bg-slate-800/80 rounded-lg hover:bg-white dark:hover:bg-slate-700 transition-colors shadow-sm"
+                  title="Pause Simulation"
+                >
+                  <Pause size={14} className={isPaused ? 'fill-current' : ''} />
+                </button>
+                <button 
+                  onClick={resetTutorial} 
+                  className="p-2 bg-white/80 dark:bg-slate-800/80 rounded-lg hover:bg-white dark:hover:bg-slate-700 transition-colors shadow-sm"
+                  title="Reset Module"
+                >
+                  <RotateCcw size={14} />
+                </button>
+              </div>
 
               <div className="mt-8 flex justify-between items-center">
                 <button 

@@ -26,6 +26,9 @@ import { AdSenseSlot } from './components/AdSense';
 import { ToolDetailsModal } from './components/ToolDetailsModal';
 import { TRANSLATIONS, getLocalizedTool } from './i18n';
 
+// Using global css via standard import
+import './index.css';
+
 const FONT_SIZES = ['text-sm', 'text-base', 'text-lg'];
 
 type Theme = 'light' | 'dark' | 'colorful';
@@ -53,26 +56,6 @@ const App: React.FC = () => {
     document.documentElement.dir = t.dir;
     document.documentElement.lang = lang;
   }, [lang, t.dir]);
-
-  useEffect(() => {
-    document.title = `${t.title} | AI Ecosystem Course 2026`;
-    
-    let metaDesc = document.querySelector('meta[name="description"]');
-    if (!metaDesc) {
-      metaDesc = document.createElement('meta');
-      (metaDesc as HTMLMetaElement).name = "description";
-      document.head.appendChild(metaDesc);
-    }
-    metaDesc.setAttribute('content', t.description);
-
-    let favicon = document.querySelector("link[rel*='icon']");
-    if (!favicon) {
-      favicon = document.createElement('link');
-      (favicon as HTMLLinkElement).rel = 'icon';
-      document.head.appendChild(favicon);
-    }
-    favicon.setAttribute('href', 'https://fonts.gstatic.com/s/i/short-term/release/googleg/assistant/default/24px.svg');
-  }, [t.title, t.description]);
 
   const filteredTools = useMemo(() => {
     const query = searchQuery.toLowerCase().trim();
@@ -120,12 +103,11 @@ const App: React.FC = () => {
 
   return (
     <div className={`min-h-screen transition-all duration-700 flex flex-col relative ${FONT_SIZES[fontSizeIndex]} selection:bg-google-blue selection:text-white`}>
-      {/* Dynamic Background Blurs */}
+      {/* Background blurs are now handled via CSS mesh-gradient more effectively */}
       <div className="fixed inset-0 z-[-1] pointer-events-none opacity-40 dark:opacity-30 overflow-hidden">
         <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-blue-500/20 blur-[150px] rounded-full animate-pulse" />
         <div className="absolute top-[30%] right-[-10%] w-[40%] h-[60%] bg-rose-500/10 blur-[120px] rounded-full" />
         <div className="absolute bottom-[-10%] left-[10%] w-[60%] h-[40%] bg-emerald-500/15 blur-[180px] rounded-full" />
-        <div className="absolute center w-[30%] h-[30%] bg-amber-500/10 blur-[140px] rounded-full" />
       </div>
 
       <header className="sticky top-0 z-50 glass-morphism border-b dark:border-slate-800/60 px-4 md:px-12 py-5 flex flex-wrap gap-6 items-center justify-between shadow-2xl">
