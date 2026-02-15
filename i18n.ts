@@ -1,3 +1,4 @@
+
 import { LanguageCode, GoogleToolContent } from './types';
 
 export const TRANSLATIONS: Record<LanguageCode, any> = {
@@ -178,14 +179,46 @@ export const TRANSLATIONS: Record<LanguageCode, any> = {
       },
       'gemini-cli': {
         name: 'Gemini CLI',
-        description: 'Interacting with Gemini models directly from your terminal environment.',
-        features: ['Fast Iteration', 'Shell Integration', 'Scriptable AI'],
-        useCases: ['Dev Workflow Automation', 'Log Analysis', 'Quick AI Queries'],
-        advancedFeatures: ['Pipe support', 'Configurable models'],
+        description: 'Supercharge your terminal with the Gemini CLI. A powerful tool to interact with Google\'s state-of-the-art models directly from your shell.',
+        features: [
+          'Shell-native AI prompting',
+          'Multimodal file support',
+          'Fast local execution',
+          'Custom environment integration'
+        ],
+        useCases: [
+          'Automated code reviews via script',
+          'Batch processing of documentation',
+          'Real-time terminal-based Q&A',
+          'CI/CD pipeline AI integration'
+        ],
+        advancedFeatures: [
+          'Support for system instructions',
+          'Pipe output directly to other tools',
+          'Configurable safety thresholds',
+          'Streaming response support'
+        ],
         tutorial: [
-          { title: 'Install', description: 'Install the CLI tool via npm or your package manager.' },
-          { title: 'Config', description: 'Set up your API Key environment variable.' },
-          { title: 'Run', description: 'Execute "gemini ask" followed by your query.' }
+          { 
+            title: 'Installation', 
+            description: 'Install globally via npm to get the gemini command in your path.',
+            codeSnippet: 'npm install -g @google/generative-ai-cli'
+          },
+          { 
+            title: 'API Configuration', 
+            description: 'Export your Gemini API Key as an environment variable for secure access.',
+            codeSnippet: 'export GOOGLE_API_KEY="your_api_key_here"'
+          },
+          { 
+            title: 'Interactive Chat', 
+            description: 'Start an interactive session or send one-off prompts directly.',
+            codeSnippet: 'gemini chat'
+          },
+          { 
+            title: 'File Analysis', 
+            description: 'Pass files to the CLI for instant analysis or code explanation.',
+            codeSnippet: 'gemini ask "Explain this code" --file src/App.tsx'
+          }
         ]
       },
       'firebase': {
@@ -387,9 +420,9 @@ export const TRANSLATIONS: Record<LanguageCode, any> = {
     tools: {}
   },
   hi: { 
-    title: "गूगल फुल स्टैक मास्टरी",
+    title: "गूगल फुल स्टैक माסטਰੀ",
     subtitle: "विकास के भविष्य का अनुभव करें",
-    description: "गूगल पारिस्थितिकी तंत्र का पता लगाने के लिए डेवलपर्स के लिए एक उच्च-רנגי केंद्र।",
+    description: "गूगल पारिस्थितिकी तंत्र का पता लगाने के लिए डेवलपर्स के लिए एक उच्च-צבעוני केंद्र।",
     tools: {}
   },
   de: { 
