@@ -1,3 +1,4 @@
+
 export enum CategoryType {
   DESIGN = 'Design',
   MODELS = 'Models',
@@ -19,6 +20,12 @@ export interface TutorialStep {
   actionLabel?: string;
 }
 
+export interface CodeExample {
+  title: string;
+  code: string;
+  language: string;
+}
+
 export interface GoogleToolContent {
   name: string;
   description: string;
@@ -26,6 +33,7 @@ export interface GoogleToolContent {
   useCases: string[];
   advancedFeatures: string[];
   tutorial: TutorialStep[];
+  codeExamples?: CodeExample[];
 }
 
 export interface GoogleTool {

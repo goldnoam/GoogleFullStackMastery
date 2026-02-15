@@ -15,7 +15,8 @@ import {
   ArrowUp,
   ArrowDown,
   ArrowLeft,
-  ArrowRight as ArrowRightIcon
+  ArrowRight as ArrowRightIcon,
+  Code2
 } from 'lucide-react';
 import { GoogleTool, LanguageCode, GoogleToolContent, CategoryType } from '../types';
 import { GOOGLE_TOOLS } from '../constants';
@@ -89,12 +90,12 @@ export const ToolDetailsModal: React.FC<ToolDetailsModalProps> = ({ tool, onClos
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             <div className="space-y-8">
               <section>
-                <h3 className="text-lg font-bold mb-4 flex items-center gap-2 dark:text-white">
+                <h3 className="text-lg font-bold mb-4 flex items-center gap-2 dark:text-white uppercase tracking-widest">
                   <Lightbulb className="text-google-yellow" size={20} /> {t.useCases}
                 </h3>
                 <ul className="space-y-3">
                   {content.useCases.map((useCase, i) => (
-                    <li key={i} className="flex items-start gap-3 text-slate-600 dark:text-slate-400">
+                    <li key={i} className="flex items-start gap-3 text-slate-600 dark:text-slate-400 text-sm font-medium">
                       <div className="mt-1.5 w-1.5 h-1.5 rounded-full bg-google-blue flex-shrink-0" />
                       {useCase}
                     </li>
@@ -102,13 +103,32 @@ export const ToolDetailsModal: React.FC<ToolDetailsModalProps> = ({ tool, onClos
                 </ul>
               </section>
 
+              {content.codeExamples && content.codeExamples.length > 0 && (
+                <section>
+                  <h3 className="text-lg font-bold mb-4 flex items-center gap-2 dark:text-white uppercase tracking-widest">
+                    <Code2 className="text-google-blue" size={20} /> {t.codeExamples}
+                  </h3>
+                  <div className="space-y-4">
+                    {content.codeExamples.map((ex, i) => (
+                      <div key={i} className="space-y-2">
+                        <p className="text-xs font-black uppercase tracking-widest text-slate-400">{ex.title}</p>
+                        <div className="bg-slate-900 rounded-2xl p-5 font-mono text-xs overflow-x-auto shadow-inner relative group">
+                           <div className="absolute top-3 right-3 px-2 py-1 rounded-md bg-white/10 text-[10px] text-white/40 uppercase tracking-widest">{ex.language}</div>
+                           <code className="text-blue-300 block whitespace-pre">{ex.code}</code>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              )}
+
               <section>
-                <h3 className="text-lg font-bold mb-4 flex items-center gap-2 dark:text-white">
+                <h3 className="text-lg font-bold mb-4 flex items-center gap-2 dark:text-white uppercase tracking-widest">
                   <Terminal className="text-google-red" size={20} /> {t.advancedFeatures}
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {content.advancedFeatures.map((feat, i) => (
-                    <span key={i} className="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-sm font-medium">
+                    <span key={i} className="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-[11px] font-black uppercase tracking-widest border border-slate-200 dark:border-slate-700">
                       {feat}
                     </span>
                   ))}
@@ -117,7 +137,7 @@ export const ToolDetailsModal: React.FC<ToolDetailsModalProps> = ({ tool, onClos
 
               {tool.relatedTools.length > 0 && (
                 <section>
-                  <h3 className="text-lg font-bold mb-4 flex items-center gap-2 dark:text-white">
+                  <h3 className="text-lg font-bold mb-4 flex items-center gap-2 dark:text-white uppercase tracking-widest">
                     <Link2 className="text-google-green" size={20} /> {t.relatedTools}
                   </h3>
                   <div className="flex flex-wrap gap-3">
@@ -129,7 +149,7 @@ export const ToolDetailsModal: React.FC<ToolDetailsModalProps> = ({ tool, onClos
                         <button 
                           key={id}
                           onClick={() => onNavigateToTool?.(related)}
-                          className="flex items-center gap-2 px-4 py-2 bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl transition-all text-sm font-medium dark:text-slate-300"
+                          className="flex items-center gap-2 px-4 py-2 bg-slate-50 dark:bg-slate-800/50 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl transition-all text-[11px] font-black uppercase tracking-widest dark:text-slate-300"
                         >
                           <img src={related.icon} alt="" className="w-5 h-5 object-contain" aria-hidden="true" />
                           {relatedContent.name}
@@ -145,16 +165,16 @@ export const ToolDetailsModal: React.FC<ToolDetailsModalProps> = ({ tool, onClos
                   href={tool.link} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-google-blue text-white rounded-2xl font-bold hover:bg-blue-600 transition-all shadow-lg hover:shadow-blue-500/20"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-google-blue text-white rounded-2xl font-bold hover:bg-blue-600 transition-all shadow-lg shadow-blue-500/20 uppercase tracking-widest text-xs"
                 >
                   {t.visitDocs} <ExternalLink size={18} />
                 </a>
               </div>
             </div>
 
-            <div className="bg-slate-50 dark:bg-slate-950/50 rounded-3xl p-6 md:p-8 border border-slate-100 dark:border-slate-800 flex flex-col relative overflow-hidden">
+            <div className="bg-slate-50 dark:bg-slate-950/50 rounded-3xl p-6 md:p-8 border border-slate-100 dark:border-slate-800 flex flex-col relative overflow-hidden h-fit sticky top-0">
               <div className="flex items-center justify-between mb-6">
-                <h3 className="font-bold dark:text-white flex items-center gap-2">
+                <h3 className="font-bold dark:text-white flex items-center gap-2 uppercase tracking-widest">
                   {t.miniTutorial}
                   {isInteractive && <Gamepad2 size={16} className="text-google-red" />}
                 </h3>
@@ -173,12 +193,12 @@ export const ToolDetailsModal: React.FC<ToolDetailsModalProps> = ({ tool, onClos
                   <h4 className="text-xl font-display font-bold mb-3 dark:text-slate-200">
                     {content.tutorial[activeStep].title}
                   </h4>
-                  <p className="text-slate-600 dark:text-slate-400 mb-6">
+                  <p className="text-slate-600 dark:text-slate-400 mb-6 text-sm font-medium">
                     {content.tutorial[activeStep].description}
                   </p>
 
                   {content.tutorial[activeStep].codeSnippet && (
-                    <div className="bg-slate-900 rounded-xl p-4 mb-6 font-mono text-xs overflow-x-auto">
+                    <div className="bg-slate-900 rounded-xl p-4 mb-6 font-mono text-xs overflow-x-auto shadow-inner">
                       <code className="text-blue-400">{content.tutorial[activeStep].codeSnippet}</code>
                     </div>
                   )}
@@ -195,7 +215,7 @@ export const ToolDetailsModal: React.FC<ToolDetailsModalProps> = ({ tool, onClos
                             <div className="w-10 h-10 bg-slate-200 dark:bg-slate-800 rounded flex items-center justify-center"><ArrowRightIcon size={16} /></div>
                           </div>
                        </div>
-                       <div className="hidden md:block text-center text-xs text-slate-500 font-mono tracking-widest">
+                       <div className="hidden md:block text-center text-[10px] text-slate-500 font-mono tracking-[0.4em] uppercase">
                           [ PRESS WASD TO INTERACT ]
                        </div>
                     </div>
@@ -203,7 +223,6 @@ export const ToolDetailsModal: React.FC<ToolDetailsModalProps> = ({ tool, onClos
                 </div>
               )}
 
-              {/* Game Overlay Controls */}
               <div className="absolute top-2 right-2 flex gap-2">
                 <button 
                   onClick={() => setIsPaused(!isPaused)} 
@@ -234,7 +253,7 @@ export const ToolDetailsModal: React.FC<ToolDetailsModalProps> = ({ tool, onClos
                 {activeStep === content.tutorial.length - 1 ? (
                   <button 
                     onClick={onClose}
-                    className="flex items-center gap-2 text-google-green font-bold animate-pulse"
+                    className="flex items-center gap-2 text-google-green font-bold animate-pulse text-xs uppercase tracking-widest"
                   >
                     {t.complete} <CheckCircle2 size={20} />
                   </button>

@@ -18,7 +18,9 @@ import {
   Filter,
   ArrowRight,
   ChevronDown,
-  Palette
+  Palette,
+  Layers,
+  Link as LinkIcon
 } from 'lucide-react';
 import { GOOGLE_TOOLS, CATEGORIES } from './constants';
 import { CategoryType, GoogleTool, LanguageCode, GoogleToolContent } from './types';
@@ -30,6 +32,7 @@ import { TRANSLATIONS, getLocalizedTool } from './i18n';
 import './index.css';
 
 const FONT_SIZES = ['text-sm', 'text-base', 'text-lg'];
+const LEVELS = ['All', 'Beginner', 'Intermediate', 'Advanced'];
 
 type Theme = 'light' | 'dark' | 'colorful';
 
@@ -38,6 +41,8 @@ const App: React.FC = () => {
   const [lang, setLang] = useState<LanguageCode>('en');
   const [fontSizeIndex, setFontSizeIndex] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState<CategoryType | 'All'>('All');
+  const [selectedLevel, setSelectedLevel] = useState('All');
+  const [selectedRelatedToolId, setSelectedRelatedToolId] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedToolId, setSelectedToolId] = useState<string | null>(null);
   const [isLangOpen, setIsLangOpen] = useState(false);
@@ -61,6 +66,9 @@ const App: React.FC = () => {
     const query = searchQuery.toLowerCase().trim();
     return GOOGLE_TOOLS.filter(tool => {
       const matchesCategory = selectedCategory === 'All' || tool.category === selectedCategory;
+      const matchesLevel = selectedLevel === 'All' || tool.level === selectedLevel;
+      const matchesRelated = selectedRelatedToolId === 'All' || tool.relatedTools.includes(selectedRelatedToolId);
+      
       const content = getLocalizedTool(tool.id, lang);
       const matchesSearch = !query || 
         content.name.toLowerCase().includes(query) || 
@@ -68,9 +76,10 @@ const App: React.FC = () => {
         content.features.some(f => f.toLowerCase().includes(query)) ||
         content.advancedFeatures.some(af => af.toLowerCase().includes(query)) ||
         content.useCases.some(u => u.toLowerCase().includes(query));
-      return matchesCategory && matchesSearch;
+        
+      return matchesCategory && matchesLevel && matchesRelated && matchesSearch;
     });
-  }, [selectedCategory, searchQuery, lang]);
+  }, [selectedCategory, selectedLevel, selectedRelatedToolId, searchQuery, lang]);
 
   const toggleTheme = () => {
     setTheme(prev => {
@@ -103,7 +112,6 @@ const App: React.FC = () => {
 
   return (
     <div className={`min-h-screen transition-all duration-700 flex flex-col relative ${FONT_SIZES[fontSizeIndex]} selection:bg-google-blue selection:text-white`}>
-      {/* Background blurs are now handled via CSS mesh-gradient more effectively */}
       <div className="fixed inset-0 z-[-1] pointer-events-none opacity-40 dark:opacity-30 overflow-hidden">
         <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-blue-500/20 blur-[150px] rounded-full animate-pulse" />
         <div className="absolute top-[30%] right-[-10%] w-[40%] h-[60%] bg-rose-500/10 blur-[120px] rounded-full" />
@@ -148,7 +156,7 @@ const App: React.FC = () => {
             {isLangOpen && (
               <>
                 <div className="fixed inset-0 z-10" onClick={() => setIsLangOpen(false)} />
-                <div className="absolute ltr:right-0 rtl:left-0 mt-3 w-60 bg-white/95 dark:bg-slate-900/95 theme-colorful:bg-slate-900/95 backdrop-blur-xl rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] border border-slate-200 dark:border-slate-800 z-20 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+                <div className="absolute ltr:right-0 rtl:left-0 mt-3 w-60 bg-white/95 dark:bg-slate-900/95 theme-colorful:bg-slate-900/95 backdrop-blur-xl rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] border border-slate-200 dark:border-slate-800 z-20 overflow-hidden">
                   <div className="p-3 flex flex-col gap-1.5">
                     {(Object.keys(TRANSLATIONS) as LanguageCode[]).map((l) => (
                       <button 
@@ -157,7 +165,7 @@ const App: React.FC = () => {
                         className={`px-5 py-4 text-left rtl:text-right rounded-2xl hover:bg-google-blue/10 transition-all flex items-center justify-between text-sm font-bold ${lang === l ? 'text-google-blue bg-google-blue/5' : 'dark:text-slate-300 theme-colorful:text-slate-300'}`}
                       >
                         {languageLabels[l]}
-                        {lang === l && <div className="w-2.5 h-2.5 rounded-full bg-google-blue shadow-[0_0_10px_rgba(66,133,244,0.5)]" />}
+                        {lang === l && <div className="w-2.5 h-2.5 rounded-full bg-google-blue" />}
                       </button>
                     ))}
                   </div>
@@ -179,12 +187,12 @@ const App: React.FC = () => {
       </header>
 
       <main className="flex-grow container mx-auto px-4 lg:px-12 py-16">
-        <div className="mb-24 text-center max-w-5xl mx-auto space-y-10 animate-in fade-in slide-in-from-bottom-10 duration-1000">
+        <div className="mb-24 text-center max-w-5xl mx-auto space-y-10">
           <div className="flex flex-wrap items-center justify-center gap-6">
-             <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-google-blue/10 text-google-blue text-[12px] font-black uppercase tracking-[0.2em] border border-google-blue/20 shadow-xl shadow-google-blue/5">
+             <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-google-blue/10 text-google-blue text-[12px] font-black uppercase tracking-[0.2em] border border-google-blue/20 shadow-xl">
               <Zap size={16} className="fill-current" /> Quantum Mastery Hub
             </div>
-            <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-emerald-500/10 text-emerald-500 text-[12px] font-black uppercase tracking-[0.2em] border border-emerald-500/20 shadow-xl shadow-emerald-500/5">
+            <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-emerald-500/10 text-emerald-500 text-[12px] font-black uppercase tracking-[0.2em] border border-emerald-500/20 shadow-xl">
               <Trophy size={16} className="fill-current" /> {GOOGLE_TOOLS.length} Active Modules
             </div>
           </div>
@@ -196,32 +204,71 @@ const App: React.FC = () => {
           </p>
         </div>
 
-        <div className="flex gap-6 overflow-x-auto pb-8 no-scrollbar snap-x scroll-smooth items-center lg:justify-center md:flex-wrap px-4 mb-20">
+        {/* Category Filters */}
+        <div className="flex gap-6 overflow-x-auto pb-8 no-scrollbar snap-x scroll-smooth items-center lg:justify-center md:flex-wrap px-4 mb-8">
           <button 
             onClick={() => setSelectedCategory('All')}
-            className={`px-12 py-6 rounded-[2.5rem] font-black whitespace-nowrap transition-all snap-start flex items-center gap-4 border-2 shadow-xl ${
+            className={`px-8 py-5 rounded-3xl font-black whitespace-nowrap transition-all snap-start flex items-center gap-3 border-2 shadow-xl ${
               selectedCategory === 'All' 
-              ? 'bg-slate-900 dark:bg-white theme-colorful:bg-white border-slate-900 dark:border-white theme-colorful:border-white text-white dark:text-slate-900 theme-colorful:text-slate-900 scale-110 z-10' 
+              ? 'bg-slate-900 dark:bg-white theme-colorful:bg-white border-slate-900 dark:border-white theme-colorful:border-white text-white dark:text-slate-900 theme-colorful:text-slate-900 scale-105 z-10' 
               : 'bg-white/60 dark:bg-slate-900/40 theme-colorful:bg-white/10 border-slate-200/50 dark:border-slate-800/50 theme-colorful:border-white/10 dark:text-slate-300 theme-colorful:text-white hover:border-google-blue/40'
             }`}
           >
-            <Sparkles size={24} />
+            <Sparkles size={20} />
             {t.allCategories}
           </button>
           {CATEGORIES.map((cat) => (
             <button 
               key={cat.type}
               onClick={() => setSelectedCategory(cat.type)}
-              className={`px-12 py-6 rounded-[2.5rem] font-black flex items-center gap-4 whitespace-nowrap transition-all snap-start border-2 shadow-xl ${
+              className={`px-8 py-5 rounded-3xl font-black flex items-center gap-3 whitespace-nowrap transition-all snap-start border-2 shadow-xl ${
                 selectedCategory === cat.type 
-                ? `${cat.color} border-transparent text-white scale-110 z-10 ${cat.shadow}` 
+                ? `${cat.color} border-transparent text-white scale-105 z-10 ${cat.shadow}` 
                 : `bg-white/60 dark:bg-slate-900/40 theme-colorful:bg-white/10 border-slate-200/50 dark:border-slate-800/50 theme-colorful:border-white/10 dark:text-slate-300 theme-colorful:text-white hover:border-google-blue/40`
               }`}
             >
-              <span className={`p-2.5 rounded-2xl bg-white/20 backdrop-blur-md`}>{cat.icon}</span>
+              <span className={`p-1.5 rounded-xl bg-white/20`}>{cat.icon}</span>
               {cat.type}
             </button>
           ))}
+        </div>
+
+        {/* Secondary Search Filters (Level and Related) */}
+        <div className="flex flex-wrap items-center justify-center gap-4 mb-20 animate-in fade-in duration-700">
+           <div className="flex items-center gap-3 px-6 py-3 rounded-2xl bg-slate-200/50 dark:bg-slate-800/50 border dark:border-slate-700">
+              <Layers size={18} className="text-slate-400" />
+              <span className="text-xs font-black uppercase tracking-widest text-slate-500 mr-2">{t.filterLevel}:</span>
+              <div className="flex gap-2">
+                 {LEVELS.map(l => (
+                    <button 
+                      key={l} 
+                      onClick={() => setSelectedLevel(l)}
+                      className={`px-4 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
+                        selectedLevel === l 
+                        ? 'bg-google-blue text-white shadow-lg shadow-google-blue/20' 
+                        : 'text-slate-400 hover:text-google-blue'
+                      }`}
+                    >
+                      {l === 'All' ? t.allLevels : l}
+                    </button>
+                 ))}
+              </div>
+           </div>
+
+           <div className="flex items-center gap-3 px-6 py-3 rounded-2xl bg-slate-200/50 dark:bg-slate-800/50 border dark:border-slate-700">
+              <LinkIcon size={18} className="text-slate-400" />
+              <span className="text-xs font-black uppercase tracking-widest text-slate-500 mr-2">{t.filterRelated}:</span>
+              <select 
+                value={selectedRelatedToolId} 
+                onChange={(e) => setSelectedRelatedToolId(e.target.value)}
+                className="bg-transparent text-[11px] font-black uppercase tracking-widest text-google-blue outline-none cursor-pointer"
+              >
+                <option value="All">All Connections</option>
+                {GOOGLE_TOOLS.map(tool => (
+                  <option key={tool.id} value={tool.id}>{getLocalizedTool(tool.id, lang).name}</option>
+                ))}
+              </select>
+           </div>
         </div>
 
         <AdSenseSlot className="mb-24 h-40 shadow-inner" />
@@ -235,7 +282,7 @@ const App: React.FC = () => {
                 <div 
                   key={tool.id} 
                   onClick={() => setSelectedToolId(tool.id)}
-                  className={`vibrant-hover group cursor-pointer bg-white dark:bg-slate-900/80 theme-colorful:bg-white/20 rounded-[3.5rem] p-12 shadow-2xl border-2 transition-all flex flex-col relative overflow-hidden backdrop-blur-3xl ${themeInfo.border} animate-in fade-in slide-in-from-bottom-12 duration-700 delay-[${idx * 40}ms]`}
+                  className={`vibrant-hover group cursor-pointer bg-white dark:bg-slate-900/80 theme-colorful:bg-white/20 rounded-[3.5rem] p-12 shadow-2xl border-2 transition-all flex flex-col relative overflow-hidden backdrop-blur-3xl ${themeInfo.border} animate-in fade-in slide-in-from-bottom-12 duration-700`}
                 >
                   <div className="flex justify-between items-start mb-12">
                     <div className="w-24 h-24 rounded-[2rem] flex items-center justify-center overflow-hidden shadow-2xl p-5 bg-white dark:bg-slate-950 theme-colorful:bg-white border dark:border-slate-800 transform group-hover:rotate-12 transition-transform duration-500">
@@ -277,7 +324,6 @@ const App: React.FC = () => {
                     <Star size={24} className="text-slate-200 dark:text-slate-700 theme-colorful:text-white/40 group-hover:text-google-yellow group-hover:fill-current transition-all transform group-hover:scale-125" />
                   </div>
 
-                  {/* Aesthetic Corner Gradient */}
                   <div className={`absolute bottom-[-10%] right-[-10%] w-32 h-32 blur-[60px] opacity-0 group-hover:opacity-40 transition-opacity duration-700 ${themeInfo.color}`} />
                 </div>
               );
@@ -287,8 +333,8 @@ const App: React.FC = () => {
                <div className="mb-10 flex justify-center">
                  <Filter size={80} className="text-slate-300 dark:text-slate-700 theme-colorful:text-white/40 animate-bounce" />
                </div>
-               <p className="text-4xl font-display font-black dark:text-white theme-colorful:text-white mb-6">Oops! No tools matching "{searchQuery}"</p>
-               <button onClick={() => setSearchQuery('')} className="px-12 py-5 bg-gradient-to-r from-google-blue to-indigo-600 text-white rounded-3xl font-black text-lg uppercase tracking-widest shadow-2xl hover:scale-105 transition-all">Clear Filters</button>
+               <p className="text-4xl font-display font-black dark:text-white theme-colorful:text-white mb-6">Oops! No tools matching current filters</p>
+               <button onClick={() => { setSearchQuery(''); setSelectedLevel('All'); setSelectedRelatedToolId('All'); setSelectedCategory('All'); }} className="px-12 py-5 bg-gradient-to-r from-google-blue to-indigo-600 text-white rounded-3xl font-black text-lg uppercase tracking-widest shadow-2xl hover:scale-105 transition-all">Reset All Filters</button>
             </div>
           )}
         </div>
@@ -313,10 +359,10 @@ const App: React.FC = () => {
           <div className="space-y-10">
             <h4 className="text-3xl font-display font-black dark:text-white theme-colorful:text-white border-b-4 border-google-yellow w-fit pb-2">Learning Path</h4>
             <ul className="space-y-6 text-xl text-slate-500 dark:text-slate-400 theme-colorful:text-slate-200 font-bold">
-              <li><a href="https://ai.google.dev" className="hover:text-google-blue hover:ltr:translate-x-2 inline-block transition-transform transition-colors">AI Academy 2026</a></li>
-              <li><a href="https://idx.dev" className="hover:text-google-red hover:ltr:translate-x-2 inline-block transition-transform transition-colors">Project IDX Core</a></li>
-              <li><a href="https://firebase.google.com" className="hover:text-google-yellow hover:ltr:translate-x-2 inline-block transition-transform transition-colors">Cloud Functions</a></li>
-              <li><a href="https://notebooklm.google.com" className="hover:text-google-green hover:ltr:translate-x-2 inline-block transition-transform transition-colors">NotebookLM Insights</a></li>
+              <li><a href="https://ai.google.dev" className="hover:text-google-blue inline-block transition-colors">AI Academy 2026</a></li>
+              <li><a href="https://idx.dev" className="hover:text-google-red inline-block transition-colors">Project IDX Core</a></li>
+              <li><a href="https://firebase.google.com" className="hover:text-google-yellow inline-block transition-colors">Cloud Functions</a></li>
+              <li><a href="https://notebooklm.google.com" className="hover:text-google-green inline-block transition-colors">NotebookLM Insights</a></li>
             </ul>
           </div>
 
@@ -338,7 +384,6 @@ const App: React.FC = () => {
           </p>
         </div>
 
-        {/* Footer Mesh Ornament */}
         <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-google-blue/5 blur-[100px] rounded-full pointer-events-none" />
       </footer>
 
