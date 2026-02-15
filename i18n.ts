@@ -38,7 +38,7 @@ export const TRANSLATIONS: Record<LanguageCode, any> = {
         useCases: ['High-volume chat applications', 'Real-time content moderation', 'Fast data extraction'],
         advancedFeatures: ['Fine-tuned token throughput', 'Optimized quantization'],
         tutorial: [{ title: 'Initialization', description: 'Configure the Flash model for low-latency streaming.' }],
-        codeExamples: [{ title: 'Fast Stream', language: 'typescript', code: `const response = await ai.models.generateContentStream({ model: 'gemini-3-flash-preview', contents: 'Summarize this log...' });` }]
+        codeExamples: [{ title: 'Fast Stream', language: 'typescript', code: `const response = await ai.models.generateContentStream({\n  model: 'gemini-3-flash-preview',\n  contents: 'Summarize this log in 3 bullets...'\n});` }]
       },
       'gemini-3-flash-lite': {
         name: 'Gemini 3 Flash Lite',
@@ -47,7 +47,7 @@ export const TRANSLATIONS: Record<LanguageCode, any> = {
         useCases: ['Reactive UI elements', 'Micro-agentic loops', 'Edge-compatible AI'],
         advancedFeatures: ['Smallest token footprint', 'Zero-shot efficiency'],
         tutorial: [{ title: 'Direct Prompting', description: 'Trigger lightning-fast logic from user events.' }],
-        codeExamples: [{ title: 'Instant Response', language: 'typescript', code: `const res = await ai.models.generateContent({ model: 'gemini-3-flash-lite-latest', contents: 'Action: Clear screen.' });` }]
+        codeExamples: [{ title: 'Instant Logic', language: 'typescript', code: `const res = await ai.models.generateContent({\n  model: 'gemini-3-flash-lite-latest',\n  contents: 'Analyze sentiment: "This is amazing!"'\n});` }]
       },
       'gemini-3-pro': {
         name: 'Gemini 3 Pro',
@@ -56,7 +56,7 @@ export const TRANSLATIONS: Record<LanguageCode, any> = {
         useCases: ['Complex code refactoring', 'Scientific hypothesis generation', 'Multi-step agent planning'],
         advancedFeatures: ['Extended thinking budget', 'High-fidelity tool use'],
         tutorial: [{ title: 'Logic Chain', description: 'Use Chain of Thought to solve multi-variable problems.' }],
-        codeExamples: [{ title: 'Deep Logic', language: 'typescript', code: `const res = await ai.models.generateContent({ model: 'gemini-3-pro-preview', contents: 'Analyze the trade-offs of this architecture...', config: { thinkingConfig: { thinkingBudget: 24000 } } });` }]
+        codeExamples: [{ title: 'Reasoning Call', language: 'typescript', code: `const res = await ai.models.generateContent({\n  model: 'gemini-3-pro-preview',\n  contents: 'Debug this memory leak in Node.js...',\n  config: { thinkingConfig: { thinkingBudget: 24000 } }\n});` }]
       },
       'gemini-deep-research': {
         name: 'Gemini (Deep Research)',
@@ -65,7 +65,7 @@ export const TRANSLATIONS: Record<LanguageCode, any> = {
         useCases: ['Market analysis', 'Legal research', 'Technical documentation synthesis'],
         advancedFeatures: ['Search grounding integration', 'Autonomous source verification'],
         tutorial: [{ title: 'Research Goal', description: 'Define a research objective and watch the model navigate sources.' }],
-        codeExamples: [{ title: 'Research Call', language: 'typescript', code: `const res = await ai.models.generateContent({ model: 'gemini-3-pro-preview', contents: 'Research the impact of solid-state batteries on the automotive market.', config: { tools: [{googleSearch: {}}] } });` }]
+        codeExamples: [{ title: 'Search Tool', language: 'typescript', code: `const res = await ai.models.generateContent({\n  model: 'gemini-3-pro-preview',\n  contents: 'What are the top 5 AI startups in Tel Aviv today?',\n  config: { tools: [{ googleSearch: {} }] }\n});` }]
       },
       'gemma': {
         name: 'Gemma',
@@ -74,7 +74,7 @@ export const TRANSLATIONS: Record<LanguageCode, any> = {
         useCases: ['Local AI privacy', 'Specific task fine-tuning', 'Educational AI research'],
         advancedFeatures: ['LoRA support', 'Cross-platform compatibility'],
         tutorial: [{ title: 'Local Setup', description: 'Initialize Gemma using Keras or PyTorch.' }],
-        codeExamples: [{ title: 'Model Load', language: 'python', code: `import keras_nlp\ngemma_lm = keras_nlp.models.GemmaCausalLM.from_preset("gemma_2b_en")` }]
+        codeExamples: [{ title: 'Python Usage', language: 'python', code: `import keras_nlp\ngemma_lm = keras_nlp.models.GemmaCausalLM.from_preset("gemma_2b_en")\ngemma_lm.generate("The future of AI is...", max_length=64)` }]
       },
       'veo-3-1': {
         name: 'Veo 3.1',
@@ -83,7 +83,7 @@ export const TRANSLATIONS: Record<LanguageCode, any> = {
         useCases: ['High-end advertising', 'Film pre-visualization', 'Creative social content'],
         advancedFeatures: ['Direct frame manipulation', 'Style consistency masking'],
         tutorial: [{ title: 'Director Script', description: 'Write a cinematic prompt with specific lighting and lens details.' }],
-        codeExamples: [{ title: 'Veo Script', language: 'typescript', code: `const op = await ai.models.generateVideos({ model: 'veo-3.1-generate-preview', prompt: 'Tracking shot through a futuristic forest, bioluminescent plants, anamorphic lens flares.' });` }]
+        codeExamples: [{ title: 'Generate Video', language: 'typescript', code: `const op = await ai.models.generateVideos({\n  model: 'veo-3.1-generate-preview',\n  prompt: 'A drone shot of a volcanic island at sunrise',\n  config: { resolution: '1080p', aspectRatio: '16:9' }\n});` }]
       },
       'flow': {
         name: 'Flow',
@@ -92,7 +92,7 @@ export const TRANSLATIONS: Record<LanguageCode, any> = {
         useCases: ['Educational explainers', 'Short film production', 'Interactive storytelling'],
         advancedFeatures: ['Timeline-based generation', 'Audio-visual syncing'],
         tutorial: [{ title: 'Scene Flow', description: 'Build a three-act structure using Flow\'s visual interface.' }],
-        codeExamples: [{ title: 'Flow Metadata', language: 'json', code: `{"scenes": [{"prompt": "Close up on hero", "duration": "3s"}, {"prompt": "Wide shot city", "duration": "5s"}]}` }]
+        codeExamples: [{ title: 'Scene Metadata', language: 'json', code: `{\n  "timeline": [\n    { "id": "intro", "prompt": "Wide shot forest", "dur": 3 },\n    { "id": "action", "prompt": "Hero runs", "dur": 5 }\n  ]\n}` }]
       },
       'google-vids': {
         name: 'Google Vids',
@@ -100,7 +100,17 @@ export const TRANSLATIONS: Record<LanguageCode, any> = {
         features: ['Workspace integration', 'Automatic script generation', 'Voiceover synthesis'],
         useCases: ['Internal training videos', 'Project pitch summaries', 'Onboarding walkthroughs'],
         advancedFeatures: ['Drive asset syncing', 'Team collaboration tools'],
-        tutorial: [{ title: 'Project Start', description: 'Convert a Google Slide deck into a professional video.' }]
+        tutorial: [{ title: 'Project Start', description: 'Convert a Google Slide deck into a professional video.' }],
+        codeExamples: [{ title: 'Asset API', language: 'javascript', code: `const project = await Vids.create({\n  source: 'docs/slides/project-q3',\n  template: 'professional_summary'\n});` }]
+      },
+      'videofx': {
+        name: 'VideoFX',
+        description: 'Direct AI video manipulation and generation. Apply complex cinematic effects or generate short clips from scratch.',
+        features: ['Cinematic styling', 'Motion generation', 'Visual FX automation'],
+        useCases: ['Social video enhancements', 'Rapid VFX prototyping', 'AI video generation'],
+        advancedFeatures: ['Scene continuity tools', 'Advanced physics simulation'],
+        tutorial: [{ title: 'First Render', description: 'Upload a base image and describe the motion you want to see.' }],
+        codeExamples: [{ title: 'FX Chain', language: 'json', code: `{\n  "effect": "cinematic_blur",\n  "motion": "slow_pan_left",\n  "intensity": 0.8\n}` }]
       },
       'stitch-design': {
         name: 'Stitch',
@@ -109,7 +119,7 @@ export const TRANSLATIONS: Record<LanguageCode, any> = {
         useCases: ['Rapid UI iteration', 'Design-to-code handoff', 'Automated wireframing'],
         advancedFeatures: ['Figma export integration', 'Tailwind CSS generation'],
         tutorial: [{ title: 'Design Prompt', description: 'Describe a complex feature and get a ready-to-style layout.' }],
-        codeExamples: [{ title: 'UI Description', language: 'text', code: `Prompt: A crypto wallet dashboard with a dark glassmorphism theme, real-time chart, and transaction list component.` }]
+        codeExamples: [{ title: 'Prompt Example', language: 'text', code: `Prompt: Generate a crypto dashboard with Material 3 dark theme, 24h price charts, and a glassmorphism sidebar.` }]
       },
       'whisk': {
         name: 'Whisk',
@@ -117,7 +127,8 @@ export const TRANSLATIONS: Record<LanguageCode, any> = {
         features: ['Visual concept blending', 'Structural image prompts', 'Style transfer'],
         useCases: ['Moodboard visualization', 'Product design iteration', 'Artistic concept merging'],
         advancedFeatures: ['Structure preservation', 'Semantic style injection'],
-        tutorial: [{ title: 'Blend Mode', description: 'Upload two images to synthesize a combined aesthetic.' }]
+        tutorial: [{ title: 'Blend Mode', description: 'Upload two images to synthesize a combined aesthetic.' }],
+        codeExamples: [{ title: 'Blend Params', language: 'json', code: `{\n  "base_image": "asset_id_1",\n  "style_ref": "asset_id_2",\n  "preserve_geometry": true\n}` }]
       },
       'nanobanana': {
         name: 'Nanobanana',
@@ -126,16 +137,32 @@ export const TRANSLATIONS: Record<LanguageCode, any> = {
         useCases: ['Technical illustrations', 'Complex scene composition', 'Brand accurate imagery'],
         advancedFeatures: ['4K resolution support', 'Aspect ratio flexibility'],
         tutorial: [{ title: 'Detail Prompting', description: 'Use descriptive reasoning to guide the generation of complex scenes.' }],
-        codeExamples: [{ title: 'Reasoned Prompt', language: 'typescript', code: `const res = await ai.models.generateContent({ model: 'gemini-3-pro-image-preview', contents: 'A blueprint of a solar-powered drone with detailed callouts for the carbon fiber fuselage.' });` }]
+        codeExamples: [{ title: 'Reasoned Prompt', language: 'typescript', code: `const res = await ai.models.generateContent({\n  model: 'gemini-3-pro-image-preview',\n  contents: 'A cross-section of a futuristic jet engine showing the fuel intake valves in blue.'\n});` }]
+      },
+      'imagen-4': {
+        name: 'Imagen 4',
+        description: 'Highest fidelity image generation model from Google. Delivers unprecedented realism, complex text rendering, and deep compositional understanding.',
+        features: ['Photorealistic rendering', 'Advanced text-in-image', 'Spatial consistency'],
+        useCases: ['Professional visual assets', 'High-quality concept art', 'Technical visual prototyping'],
+        advancedFeatures: ['Structural guidance control', 'Aspect-ratio awareness'],
+        tutorial: [
+          { title: 'Base Call', description: 'Initiate a high-res generation using the latest Imagen model.' },
+          { title: 'Text Rendering', description: 'Prompt for specific text labels and observe accurate font rendering.' }
+        ],
+        codeExamples: [{ title: 'Imagen API', language: 'typescript', code: `const response = await ai.models.generateImages({\n  model: 'imagen-4.0-generate-001',\n  prompt: 'A glass sculpture of a phoenix with internal gold leaf detail',\n  config: { aspectRatio: '16:9' }\n});` }]
       },
       'gemini-cli': {
         name: 'Gemini CLI',
-        description: 'Open source agent bringing Gemini models to your terminal. Integrate AI directly into your command-line workflows.',
-        features: ['Terminal-native AI', 'Pipe and Redirect support', 'Scripting integration'],
-        useCases: ['Log file analysis', 'Automated code fixes via shell', 'Terminal-based research'],
-        advancedFeatures: ['Support for system instructions', 'Custom environment variables'],
-        tutorial: [{ title: 'CLI Usage', description: 'Install and query your first files from the terminal.' }],
-        codeExamples: [{ title: 'Terminal Command', language: 'bash', code: `cat package.json | gemini ask "What are the core dependencies and their versions?"` }]
+        description: 'Frontier intelligence in your terminal. The official command-line interface for Google Gemini models, enabling seamless script integration and local AI automation.',
+        features: ['Terminal-native', 'Pipe & Redirect support', 'Scriptable workflows'],
+        useCases: ['Automated code review', 'Large-scale log analysis', 'Batch text processing'],
+        advancedFeatures: ['Custom system instructions', '2M token context support'],
+        tutorial: [
+          { title: 'Installation', description: 'Install the CLI tool and configure your API key environment variable.' },
+          { title: 'First Query', description: 'Run a direct prompt from your terminal using standard input.' },
+          { title: 'Processing Files', description: 'Pipe file contents into Gemini for instant summarization or analysis.' }
+        ],
+        codeExamples: [{ title: 'Terminal Usage', language: 'bash', code: `cat main.py | gemini ask "Refactor this code for performance" > refactored_main.py` }]
       },
       'antigravity': {
         name: 'Antigravity',
@@ -143,7 +170,8 @@ export const TRANSLATIONS: Record<LanguageCode, any> = {
         features: ['Autonomous PRs', 'Self-healing dev loops', 'Agentic debugging'],
         useCases: ['Massive repo refactoring', 'Legacy migration automation', 'Proactive security patching'],
         advancedFeatures: ['Multi-agent coordination', 'Remote cloud environments'],
-        tutorial: [{ title: 'Auto-Task', description: 'Assign an agent to upgrade your codebase to the latest framework version.' }]
+        tutorial: [{ title: 'Auto-Task', description: 'Assign an agent to upgrade your codebase to the latest framework version.' }],
+        codeExamples: [{ title: 'Agent Prompt', language: 'text', code: `/refactor @all-components Update to React 19 forwardRef patterns and add exhaustive unit tests.` }]
       },
       'jules': {
         name: 'Jules',
@@ -151,7 +179,8 @@ export const TRANSLATIONS: Record<LanguageCode, any> = {
         features: ['Background code review', 'Auto-documentation', 'Technical debt identification'],
         useCases: ['Large-scale repo maintenance', 'Ensuring code standards', 'Onboarding assistance'],
         advancedFeatures: ['Deep repository context', 'Historical logic analysis'],
-        tutorial: [{ title: 'Repo Analysis', description: 'Let Jules index your entire repository to provide context-aware insights.' }]
+        tutorial: [{ title: 'Repo Analysis', description: 'Let Jules index your entire repository to provide context-aware insights.' }],
+        codeExamples: [{ title: 'Jules Scan', language: 'bash', code: `jules scan --repo . --rule "Ensure all API endpoints have JSDoc and validation checks"` }]
       },
       'google-adk': {
         name: 'Google ADK',
@@ -160,7 +189,7 @@ export const TRANSLATIONS: Record<LanguageCode, any> = {
         useCases: ['Enterprise AI agents', 'Multi-tool workflows', 'Autonomous task execution'],
         advancedFeatures: ['Safety protocol enforcement', 'Stateful agent persistence'],
         tutorial: [{ title: 'Agent Build', description: 'Define the tools and goals for your first scalable agent.' }],
-        codeExamples: [{ title: 'ADK Setup', language: 'javascript', code: `const myAgent = ADK.createAgent({ tools: [GoogleSearch, DriveAccess], goal: 'Plan the quarterly budget' });` }]
+        codeExamples: [{ title: 'ADK Setup', language: 'typescript', code: `const agent = ADK.createAgent({\n  role: 'Technical Writer',\n  tools: [GoogleSearch, GithubAPI],\n  memory: 'stateful'\n});` }]
       },
       'google-a2a': {
         name: 'Google A2A',
@@ -168,7 +197,20 @@ export const TRANSLATIONS: Record<LanguageCode, any> = {
         features: ['Inter-agent communication', 'Unified protocol', 'Decentralized task sharing'],
         useCases: ['Complex multi-agent systems', 'Cross-platform AI collaboration', 'Agent-to-agent negotiation'],
         advancedFeatures: ['Conflict resolution logic', 'Standardized payload schema'],
-        tutorial: [{ title: 'Agent Protocol', description: 'Configure two agents to share data and goals using A2A.' }]
+        tutorial: [{ title: 'Agent Protocol', description: 'Configure two agents to share data and goals using A2A.' }],
+        codeExamples: [{ title: 'A2A Message', language: 'json', code: `{\n  "from": "agent_a",\n  "to": "agent_b",\n  "intent": "request_data",\n  "payload": { "field": "q3_revenue" }\n}` }]
+      },
+      'google-meet': {
+        name: 'Google Meet',
+        description: 'AI-enhanced communication platform. Leverages Gemini to automate meeting summaries, provide real-time translations, and optimize audio-visual quality for a seamless workspace experience.',
+        features: ['AI Meeting Notes', 'Real-time Translation', 'Studio Look & Sound'],
+        useCases: ['Automated team documentation', 'Global cross-language calls', 'Professional video presence'],
+        advancedFeatures: ['Gemini Sidekick integration', 'Automatic action item tracking'],
+        tutorial: [
+          { title: 'AI Notes', description: 'Enable "Take notes for me" to get an automated summary after the call.' },
+          { title: 'Live Captioning', description: 'Switch on real-time translations to bridge language gaps instantly.' }
+        ],
+        codeExamples: [{ title: 'Workspace Add-on', language: 'javascript', code: `// Google Apps Script for Meet Events\nfunction onMeetingStart(e) {\n  const summaryAgent = WorkspaceAI.getAgent('meeting_notes');\n  summaryAgent.startListening();\n}` }]
       },
       'filesearch-api': {
         name: 'FileSearch API',
@@ -177,7 +219,7 @@ export const TRANSLATIONS: Record<LanguageCode, any> = {
         useCases: ['Custom knowledge bases', 'Internal document Q&A', 'Enterprise research portals'],
         advancedFeatures: ['Metadata filtering', 'Hybrid retrieval logic'],
         tutorial: [{ title: 'RAG Setup', description: 'Upload your documents and query them instantly via API.' }],
-        codeExamples: [{ title: 'Search API', language: 'bash', code: `curl /v1/filesearch/query -d '{"query": "Policy on remote work", "namespace": "hr-docs"}'` }]
+        codeExamples: [{ title: 'Query API', language: 'bash', code: `curl -X POST /api/search \\\n  -d '{"query": "How do I reset my password?", "collection": "hr_docs"}'` }]
       },
       'ai-mode': {
         name: 'AI Mode',
@@ -185,7 +227,8 @@ export const TRANSLATIONS: Record<LanguageCode, any> = {
         features: ['Reasoned search results', 'Multimodal grounding', 'Deep research synthesis'],
         useCases: ['Professional research', 'Visual search engine', 'Knowledge discovery'],
         advancedFeatures: ['Source transparency', 'Complex query decomposition'],
-        tutorial: [{ title: 'Smart Search', description: 'Use complex, reasoned queries to find precisely what you need.' }]
+        tutorial: [{ title: 'Smart Search', description: 'Use complex, reasoned queries to find precisely what you need.' }],
+        codeExamples: [{ title: 'Mode Config', language: 'json', code: `{\n  "mode": "reasoned_search",\n  "multimodal": true,\n  "grounding": ["maps", "search"]\n}` }]
       },
       'notebook-llm': {
         name: 'NotebookLM',
@@ -193,7 +236,8 @@ export const TRANSLATIONS: Record<LanguageCode, any> = {
         features: ['Source grounding', 'Automatic citations', 'Audio overview generation'],
         useCases: ['Literature reviews', 'Product requirement analysis', 'Learning complex new fields'],
         advancedFeatures: ['Multiple source types (PDF, Web, YouTube)', 'Collaborative notebooks'],
-        tutorial: [{ title: 'Personal Grounding', description: 'Upload your research papers and ask for a cross-source summary.' }]
+        tutorial: [{ title: 'Personal Grounding', description: 'Upload your research papers and ask for a cross-source summary.' }],
+        codeExamples: [{ title: 'Source Query', language: 'text', code: `Question: Based on the 3 PDFs I uploaded, what is the main risk factor for the project?` }]
       },
       'pomelli': {
         name: 'Pomelli',
@@ -201,15 +245,17 @@ export const TRANSLATIONS: Record<LanguageCode, any> = {
         features: ['Trend analysis', 'Brand voice alignment', 'Creative ideation'],
         useCases: ['Social media campaign planning', 'Content strategy research', 'Brand expansion brainstorming'],
         advancedFeatures: ['Cultural trend monitoring', 'Platform-specific optimization'],
-        tutorial: [{ title: 'Campaign Ideation', description: 'Define your brand voice and target audience for a tailored strategy.' }]
+        tutorial: [{ title: 'Campaign Ideation', description: 'Define your brand voice and target audience for a tailored strategy.' }],
+        codeExamples: [{ title: 'Strategy Prompt', language: 'text', code: `Generate a 7-day TikTok campaign strategy for a sustainable fashion brand targeting Gen Z in Berlin.` }]
       },
       'mixboard': {
         name: 'Mixboard',
-        description: 'AI-powered music composition and mixing lab. Blend genres, adjust stems, and create unique tracks through high-level AI controls.',
+        description: 'Mixboard is an AI-powered concepting board that helps you explore, expand, and refine your ideas.',
         features: ['Multi-stem mixing', 'Genre fusion', 'Real-time synthesis'],
         useCases: ['Original soundtrack creation', 'Creative audio prototyping', 'Musical experimentation'],
         advancedFeatures: ['Direct MIDI export', 'AI orchestration control'],
-        tutorial: [{ title: 'Create a Mix', description: 'Drag stems onto the board to synthesize your first unique AI track.' }]
+        tutorial: [{ title: 'Create a Mix', description: 'Drag stems onto the board to synthesize your first unique AI track.' }],
+        codeExamples: [{ title: 'Mix Config', language: 'json', code: `{\n  "stems": ["jazz_drums", "synth_wave_bass", "lofi_piano"],\n  "tempo": 95,\n  "key": "Cm"\n}` }]
       },
       'musicfx': {
         name: 'MusicFX',
@@ -217,7 +263,8 @@ export const TRANSLATIONS: Record<LanguageCode, any> = {
         features: ['Descriptive prompting', 'Variable loop lengths', 'Style consistency'],
         useCases: ['Background music generation', 'Sample creation for producers', 'Atmospheric soundscapes'],
         advancedFeatures: ['Instrumental isolation', 'Seed-based generation'],
-        tutorial: [{ title: 'Prompt to Beat', description: 'Type "Lo-fi beats for a cozy spaceship" to hear the results.' }]
+        tutorial: [{ title: 'Prompt to Beat', description: 'Type "Lo-fi beats for a cozy spaceship" to hear the results.' }],
+        codeExamples: [{ title: 'Music Prompt', language: 'text', code: `Prompt: Orchestral epic hybrid with heavy cinematic brass and futuristic synths, 120bpm.` }]
       },
       'imagefx': {
         name: 'ImageFX',
@@ -225,15 +272,8 @@ export const TRANSLATIONS: Record<LanguageCode, any> = {
         features: ['Expressive chips', 'Style refinement', 'Photo-realistic output'],
         useCases: ['Asset generation', 'Creative visual brainstorming', 'High-res photography simulation'],
         advancedFeatures: ['In-painting and Out-painting', 'Custom seed control'],
-        tutorial: [{ title: 'Expressive Design', description: 'Click the descriptive chips to pivot the style of your image instantly.' }]
-      },
-      'videofx': {
-        name: 'VideoFX',
-        description: 'Direct AI video manipulation and generation. Apply complex cinematic effects or generate short clips from scratch.',
-        features: ['Cinematic styling', 'Motion generation', 'Visual FX automation'],
-        useCases: ['Social video enhancements', 'Rapid VFX prototyping', 'AI video generation'],
-        advancedFeatures: ['Scene continuity tools', 'Advanced physics simulation'],
-        tutorial: [{ title: 'First Render', description: 'Upload a base image and describe the motion you want to see.' }]
+        tutorial: [{ title: 'Expressive Design', description: 'Click the descriptive chips to pivot the style of your image instantly.' }],
+        codeExamples: [{ title: 'Generation', language: 'typescript', code: `const img = await ai.models.generateImages({\n  model: 'imagen-4.0-generate-001',\n  prompt: 'A cyberpunk tea shop in old Kyoto, neon lights'\n});` }]
       },
       'gentype': {
         name: 'GenType',
@@ -241,7 +281,8 @@ export const TRANSLATIONS: Record<LanguageCode, any> = {
         features: ['Custom font generation', 'Concept-to-character mapping', 'Style transfer'],
         useCases: ['Branding and logo design', 'Creative title cards', 'Thematic typography'],
         advancedFeatures: ['Vector-ready export', 'Consistent style mapping'],
-        tutorial: [{ title: 'Type Your Theme', description: 'Enter "Bioluminescent coral" to generate a complete ocean-themed alphabet.' }]
+        tutorial: [{ title: 'Type Your Theme', description: 'Enter "Bioluminescent coral" to generate a complete ocean-themed alphabet.' }],
+        codeExamples: [{ title: 'Type Prompt', language: 'text', code: `Theme: Molten gold drips and metallic textures for a luxury brand logo alphabet.` }]
       },
       'textfx': {
         name: 'TextFX',
@@ -249,7 +290,8 @@ export const TRANSLATIONS: Record<LanguageCode, any> = {
         features: ['Lyrical similes', 'Word chain generation', 'Scene descriptions'],
         useCases: ['Creative writing blocks', 'Songwriting inspiration', 'Vocabulary expansion'],
         advancedFeatures: ['Specialized Gemini writing models', 'Creative linguistic constraints'],
-        tutorial: [{ title: 'Wordplay', description: 'Select the "Simile" tool and enter a word to see poetic AI connections.' }]
+        tutorial: [{ title: 'Wordplay', description: 'Select the "Simile" tool and enter a word to see poetic AI connections.' }],
+        codeExamples: [{ title: 'Simile Call', language: 'text', code: `Word: Time. Result: Like a river that flows but never returns to the same shore.` }]
       },
       'illuminate': {
         name: 'Illuminate',
@@ -257,15 +299,17 @@ export const TRANSLATIONS: Record<LanguageCode, any> = {
         features: ['Audio overview synthesis', 'Source deep-dives', 'Multi-speaker dialogues'],
         useCases: ['Paper summarization', 'Learning on the go', 'Research accessibility'],
         advancedFeatures: ['Context-aware Q&A', 'Citation tracking'],
-        tutorial: [{ title: 'Audio Lab', description: 'Upload a PDF and generate a professional podcast-style summary.' }]
+        tutorial: [{ title: 'Audio Lab', description: 'Upload a PDF and generate a professional podcast-style summary.' }],
+        codeExamples: [{ title: 'Audio Config', language: 'json', code: `{\n  "speakers": ["Alex", "Jordan"],\n  "tone": "academic_discussion",\n  "duration": "5m"\n}` }]
       },
       'creative-canvas': {
-        name: 'Creative Canvas',
-        description: 'Interactive AI design space. Collaborate with AI to sketch, refine, and finalize complex visual compositions.',
+        name: 'CC',
+        description: 'a new AI productivity agent that connects your Gmail, Calendar and Drive to deliver a personalized briefing every morning',
         features: ['Sketch-to-image', 'Collaborative canvas', 'Multi-model integration'],
         useCases: ['Concept art brainstorming', 'Iterative visual design', 'Graphic design prototyping'],
         advancedFeatures: ['Real-time canvas syncing', 'Cross-tool asset dragging'],
-        tutorial: [{ title: 'Sketch & Prompt', description: 'Draw a rough outline and use AI to fill in the professional details.' }]
+        tutorial: [{ title: 'Sketch & Prompt', description: 'Draw a rough outline and use AI to fill in the professional details.' }],
+        codeExamples: [{ title: 'Canvas State', language: 'json', code: `{\n  "layers": ["sketch_01", "ai_fill_01"],\n  "model": "gemini-3-pro-image",\n  "prompt_strength": 0.75\n}` }]
       }
     }
   },

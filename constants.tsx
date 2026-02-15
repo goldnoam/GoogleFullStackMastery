@@ -76,7 +76,7 @@ export const GOOGLE_TOOLS: GoogleTool[] = [
     icon: 'https://www.gstatic.com/images/branding/product/2x/video_96dp.png',
     link: 'https://deepmind.google/technologies/veo/',
     level: 'Advanced',
-    relatedTools: ['flow', 'google-vids']
+    relatedTools: ['flow', 'google-vids', 'imagen-4']
   },
   {
     id: 'flow',
@@ -92,7 +92,7 @@ export const GOOGLE_TOOLS: GoogleTool[] = [
     icon: 'https://www.gstatic.com/images/branding/product/2x/video_96dp.png',
     link: 'https://workspace.google.com/products/vids/',
     level: 'Beginner',
-    relatedTools: ['google-docs', 'flow']
+    relatedTools: ['google-meet', 'flow']
   },
   {
     id: 'videofx',
@@ -101,6 +101,16 @@ export const GOOGLE_TOOLS: GoogleTool[] = [
     link: 'https://labs.google/videofx',
     level: 'Advanced',
     relatedTools: ['veo-3-1', 'imagefx']
+  },
+
+  // IMAGES
+  {
+    id: 'imagen-4',
+    category: CategoryType.IMAGES,
+    icon: 'https://www.gstatic.com/images/branding/product/2x/photos_96dp.png',
+    link: 'https://ai.google.dev/imagen',
+    level: 'Advanced',
+    relatedTools: ['imagefx', 'nanobanana', 'veo-3-1']
   },
 
   // DESIGN
@@ -126,7 +136,7 @@ export const GOOGLE_TOOLS: GoogleTool[] = [
     icon: 'https://www.gstatic.com/images/branding/product/2x/photos_96dp.png',
     link: 'https://labs.google/nanobanana',
     level: 'Beginner',
-    relatedTools: ['whisk', 'stitch-design']
+    relatedTools: ['whisk', 'stitch-design', 'imagen-4']
   },
 
   // CODING
@@ -136,7 +146,7 @@ export const GOOGLE_TOOLS: GoogleTool[] = [
     icon: 'https://www.gstatic.com/images/branding/product/2x/chrome_96dp.png',
     link: 'https://github.com/google/generative-ai-cli',
     level: 'Intermediate',
-    relatedTools: ['antigravity', 'jules']
+    relatedTools: ['gemini-3-pro', 'antigravity']
   },
   {
     id: 'antigravity',
@@ -173,6 +183,22 @@ export const GOOGLE_TOOLS: GoogleTool[] = [
     relatedTools: ['google-adk', 'ai-mode']
   },
   {
+    id: 'creative-canvas',
+    category: CategoryType.AGENTS,
+    icon: 'https://www.gstatic.com/images/branding/product/2x/assistant_96dp.png',
+    link: 'https://labs.google/cc',
+    level: 'Beginner',
+    relatedTools: ['google-meet', 'google-vids']
+  },
+  {
+    id: 'google-meet',
+    category: CategoryType.AGENTS,
+    icon: 'https://www.gstatic.com/images/branding/product/2x/meet_96dp.png',
+    link: 'https://meet.google.com',
+    level: 'Beginner',
+    relatedTools: ['google-vids', 'notebook-llm', 'illuminate', 'creative-canvas']
+  },
+  {
     id: 'filesearch-api',
     category: CategoryType.AGENTS,
     icon: 'https://www.gstatic.com/images/branding/product/2x/search_96dp.png',
@@ -196,7 +222,7 @@ export const GOOGLE_TOOLS: GoogleTool[] = [
     icon: 'https://www.gstatic.com/images/branding/product/2x/docs_96dp.png',
     link: 'https://notebooklm.google.com',
     level: 'Intermediate',
-    relatedTools: ['pomelli', 'illuminate']
+    relatedTools: ['pomelli', 'illuminate', 'google-meet']
   },
   {
     id: 'pomelli',
@@ -254,14 +280,6 @@ export const GOOGLE_TOOLS: GoogleTool[] = [
     icon: 'https://www.gstatic.com/images/branding/product/2x/docs_96dp.png',
     link: 'https://illuminate.withgoogle.com/',
     level: 'Intermediate',
-    relatedTools: ['notebook-llm']
-  },
-  {
-    id: 'creative-canvas',
-    category: CategoryType.LABS,
-    icon: 'https://www.gstatic.com/images/branding/product/2x/assistant_96dp.png',
-    link: 'https://labs.google/cc',
-    level: 'Beginner',
-    relatedTools: ['stitch-design']
+    relatedTools: ['notebook-llm', 'google-meet']
   }
 ];
