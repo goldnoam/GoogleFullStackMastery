@@ -34,6 +34,10 @@ export const TRANSLATIONS: Record<LanguageCode, any> = {
     deploymentFlowTitle: "Modern Deployment Pipelines",
     flowPath1: "Standard Developer Path",
     flowPath2: "Design-First Path",
+    enableGrounding: "Enable Search Grounding",
+    groundingActive: "Google Search Grounding Active",
+    aiInsight: "Gemini AI Insights",
+    codewikiLink: "Visit Codewiki",
     dir: "ltr",
     tools: {
       'gemini-3-flash': {
@@ -307,6 +311,15 @@ export const TRANSLATIONS: Record<LanguageCode, any> = {
         tutorial: [{ title: 'Campaign Ideation', description: 'Define your brand voice and target audience for a tailored strategy.' }],
         codeExamples: [{ title: 'Strategy Prompt', language: 'text', code: `Generate a 7-day TikTok campaign strategy for a sustainable fashion brand targeting Gen Z in Berlin.` }]
       },
+      'codewiki': {
+        name: 'Codewiki',
+        description: 'Official Google engineering and development documentation hub. A collaborative wiki for high-level software engineering principles.',
+        features: ['Shared dev knowledge', 'Standardized docs', 'Expert insights'],
+        useCases: ['Deep technical reference', 'Understanding Google engineering culture', 'Scalability best practices'],
+        advancedFeatures: ['Community collaboration', 'Verified content markers'],
+        tutorial: [{ title: 'Knowledge Mining', description: 'Search for specific engineering patterns used at scale.' }],
+        codeExamples: [{ title: 'Reference Search', language: 'text', code: `Search: "Zero trust architecture implementation patterns"` }]
+      },
       'mixboard': {
         name: 'Mixboard',
         description: 'Mixboard is an AI-powered concepting board that helps you explore, expand, and refine your ideas.',
@@ -382,6 +395,8 @@ export const TRANSLATIONS: Record<LanguageCode, any> = {
     filterRelated: "Bezogen auf",
     filterFeature: "Hauptmerkmal",
     filterAdvancedFeature: "Pro-Funktion",
+    enableGrounding: "Google-Suche Grounding aktivieren",
+    groundingActive: "Google-Suche Grounding Aktiv",
     tools: {} 
   },
   he: { dir: "rtl", tools: {} },

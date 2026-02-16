@@ -282,6 +282,14 @@ export const GOOGLE_TOOLS: GoogleTool[] = [
     level: 'Intermediate',
     relatedTools: ['notebook-llm']
   },
+  {
+    id: 'codewiki',
+    category: CategoryType.RESEARCH,
+    icon: 'https://www.gstatic.com/images/branding/product/2x/docs_96dp.png',
+    link: 'https://codewiki.google/',
+    level: 'Beginner',
+    relatedTools: ['notebook-llm', 'gemini-3-pro']
+  },
 
   // LABS
   {

@@ -30,7 +30,10 @@ import {
   Share2,
   Linkedin,
   Github,
-  Rocket
+  Rocket,
+  ShieldCheck,
+  BrainCircuit,
+  Hash
 } from 'lucide-react';
 import { GOOGLE_TOOLS, CATEGORIES } from './constants';
 import { CategoryType, GoogleTool, LanguageCode, GoogleToolContent } from './types';
@@ -61,6 +64,7 @@ const App: React.FC = () => {
   const [isLangOpen, setIsLangOpen] = useState(false);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [isGroundingEnabled, setIsGroundingEnabled] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   const t = TRANSLATIONS[lang];
@@ -240,11 +244,18 @@ const App: React.FC = () => {
               placeholder={t.searchPlaceholder}
               onFocus={() => setIsSearchFocused(true)}
               onBlur={() => setTimeout(() => setIsSearchFocused(false), 200)}
-              className="w-full ltr:pl-14 rtl:pr-14 ltr:pr-24 rtl:pl-24 py-4 rounded-[1.5rem] bg-slate-200/40 dark:bg-slate-900/60 theme-colorful:bg-white/20 border-2 border-transparent focus:border-google-blue focus:bg-white dark:focus:bg-slate-900 outline-none transition-all dark:text-white theme-colorful:text-white text-lg shadow-inner"
+              className={`w-full ltr:pl-14 rtl:pr-14 ltr:pr-24 rtl:pl-24 py-4 rounded-[1.5rem] bg-slate-200/40 dark:bg-slate-900/60 theme-colorful:bg-white/20 border-2 border-transparent focus:border-google-blue focus:bg-white dark:focus:bg-slate-900 outline-none transition-all dark:text-white theme-colorful:text-white text-lg shadow-inner ${isGroundingEnabled ? 'ring-2 ring-google-green ring-offset-2 dark:ring-offset-slate-950' : ''}`}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
             <div className="absolute ltr:right-4 rtl:left-4 top-1/2 -translate-y-1/2 flex items-center gap-2">
+              <button 
+                onClick={() => setIsGroundingEnabled(!isGroundingEnabled)}
+                className={`p-1.5 rounded-full transition-all flex items-center gap-1 group/grounding ${isGroundingEnabled ? 'bg-google-green text-white scale-110' : 'text-slate-400 hover:text-google-green'}`}
+                title={t.enableGrounding}
+              >
+                <ShieldCheck size={20} className={isGroundingEnabled ? 'animate-pulse' : ''} />
+              </button>
               {searchQuery && (
                 <button 
                   onClick={() => setSearchQuery('')}
@@ -309,6 +320,23 @@ const App: React.FC = () => {
       </header>
 
       <main className="flex-grow container mx-auto px-4 lg:px-12 py-16">
+        {isGroundingEnabled && searchQuery.length > 2 && (
+          <div className="mb-16 p-8 rounded-[2.5rem] bg-google-green/5 border-2 border-google-green/20 backdrop-blur-xl animate-in zoom-in-95 duration-500">
+             <div className="flex items-center gap-4 mb-6">
+                <div className="w-10 h-10 rounded-xl bg-google-green text-white flex items-center justify-center shadow-lg shadow-google-green/30">
+                   <BrainCircuit size={24} />
+                </div>
+                <div>
+                   <h3 className="text-xl font-black dark:text-white">{t.aiInsight}</h3>
+                   <span className="text-[10px] uppercase font-black tracking-widest text-google-green">{t.groundingActive}</span>
+                </div>
+             </div>
+             <p className="text-lg text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
+                Analysis suggests you're looking for up-to-date documentation on <strong>{searchQuery}</strong>. I'm cross-referencing Codewiki and official Google Cloud repositories to provide high-fidelity filtered results within our Mastery hub.
+             </p>
+          </div>
+        )}
+
         <div className="mb-24 text-center max-w-5xl mx-auto space-y-10">
           <div className="flex flex-wrap items-center justify-center gap-6">
              <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-google-blue/10 text-google-blue text-[12px] font-black uppercase tracking-[0.2em] border border-google-blue/20 shadow-xl">
@@ -495,6 +523,7 @@ const App: React.FC = () => {
             <div className="flex gap-8">
               <a href="mailto:goldnoamai@gmail.com" className="w-16 h-16 rounded-3xl bg-slate-100 dark:bg-slate-900 theme-colorful:bg-white/10 flex items-center justify-center hover:bg-google-red hover:text-white transition-all text-slate-500 dark:text-slate-400 theme-colorful:text-white shadow-xl"><Mail size={32} /></a>
               <a href="https://www.linkedin.com/in/noamgold/" target="_blank" rel="noopener noreferrer" className="w-16 h-16 rounded-3xl bg-slate-100 dark:bg-slate-900 theme-colorful:bg-white/10 flex items-center justify-center hover:bg-google-blue hover:text-white transition-all text-slate-500 dark:text-slate-400 theme-colorful:text-white shadow-xl"><Linkedin size={32} /></a>
+              <a href="https://codewiki.google/" target="_blank" rel="noopener noreferrer" className="w-16 h-16 rounded-3xl bg-slate-100 dark:bg-slate-900 theme-colorful:bg-white/10 flex items-center justify-center hover:bg-google-yellow hover:text-white transition-all text-slate-500 dark:text-slate-400 theme-colorful:text-white shadow-xl" title={t.codewikiLink}><BookOpen size={32} /></a>
               <a href="#" className="w-16 h-16 rounded-3xl bg-slate-100 dark:bg-slate-900 theme-colorful:bg-white/10 flex items-center justify-center hover:bg-google-blue hover:text-white transition-all text-slate-500 dark:text-slate-400 theme-colorful:text-white shadow-xl"><Globe size={32} /></a>
             </div>
           </div>
@@ -504,6 +533,7 @@ const App: React.FC = () => {
             <ul className="space-y-6 text-xl text-slate-500 dark:text-slate-400 theme-colorful:text-slate-200 font-bold">
               <li><a href="https://ai.google.dev" className="hover:text-google-blue inline-block transition-colors">AI Academy 2026</a></li>
               <li><a href="https://idx.dev" className="hover:text-google-red inline-block transition-colors">Project IDX Core</a></li>
+              <li><a href="https://codewiki.google/" target="_blank" className="hover:text-google-yellow inline-block transition-colors">Codewiki Hub</a></li>
             </ul>
           </div>
 
