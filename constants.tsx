@@ -110,7 +110,15 @@ export const GOOGLE_TOOLS: GoogleTool[] = [
     icon: 'https://www.gstatic.com/images/branding/product/2x/photos_96dp.png',
     link: 'https://ai.google.dev/imagen',
     level: 'Advanced',
-    relatedTools: ['imagefx', 'nanobanana', 'veo-3-1']
+    relatedTools: ['imagefx', 'nanobanana', 'veo-3-1', 'gemini-2-5-flash-image']
+  },
+  {
+    id: 'gemini-2-5-flash-image',
+    category: CategoryType.IMAGES,
+    icon: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-gemini-icon.png',
+    link: 'https://ai.google.dev',
+    level: 'Advanced',
+    relatedTools: ['imagen-4', 'nanobanana']
   },
 
   // DESIGN
@@ -213,6 +221,48 @@ export const GOOGLE_TOOLS: GoogleTool[] = [
     link: 'https://labs.google/aimode',
     level: 'Intermediate',
     relatedTools: ['google-a2a', 'gemini-3-pro']
+  },
+  {
+    id: 'google-search-grounding',
+    category: CategoryType.AGENTS,
+    icon: 'https://www.gstatic.com/images/branding/product/2x/search_96dp.png',
+    link: 'https://ai.google.dev/docs/grounding',
+    level: 'Intermediate',
+    relatedTools: ['google-maps-grounding', 'gemini-3-pro']
+  },
+  {
+    id: 'google-maps-grounding',
+    category: CategoryType.AGENTS,
+    icon: 'https://www.gstatic.com/images/branding/product/2x/maps_96dp.png',
+    link: 'https://ai.google.dev/docs/grounding',
+    level: 'Intermediate',
+    relatedTools: ['google-search-grounding', 'gemini-2.5-flash-native-audio']
+  },
+
+  // VOICE
+  {
+    id: 'gemini-2-5-flash-native-audio',
+    category: CategoryType.VOICE,
+    icon: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-gemini-icon.png',
+    link: 'https://ai.google.dev',
+    level: 'Advanced',
+    relatedTools: ['gemini-live', 'gemini-2-5-flash-tts']
+  },
+  {
+    id: 'gemini-2-5-flash-tts',
+    category: CategoryType.VOICE,
+    icon: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-gemini-icon.png',
+    link: 'https://ai.google.dev',
+    level: 'Intermediate',
+    relatedTools: ['gemini-2-5-flash-native-audio']
+  },
+  {
+    id: 'gemini-live',
+    category: CategoryType.VOICE,
+    icon: 'https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-gemini-icon.png',
+    link: 'https://ai.google.dev',
+    level: 'Advanced',
+    relatedTools: ['gemini-2-5-flash-native-audio']
   },
 
   // RESEARCH

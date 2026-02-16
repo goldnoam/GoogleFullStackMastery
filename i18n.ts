@@ -156,6 +156,15 @@ export const TRANSLATIONS: Record<LanguageCode, any> = {
         ],
         codeExamples: [{ title: 'Imagen API', language: 'typescript', code: `const response = await ai.models.generateImages({\n  model: 'imagen-4.0-generate-001',\n  prompt: 'A glass sculpture of a phoenix with internal gold leaf detail',\n  config: { aspectRatio: '16:9' }\n});` }]
       },
+      'gemini-2-5-flash-image': {
+        name: 'Gemini 2.5 Flash Image',
+        description: 'High-speed image reasoning and generation. Perfect for real-time visual editing and responsive creative workflows.',
+        features: ['Real-time editing', 'Vision-aware reasoning', 'Multimodal context'],
+        useCases: ['Interactive design assistants', 'Contextual image modification', 'Fast visual prototyping'],
+        advancedFeatures: ['Low-latency inference', 'Precise in-painting'],
+        tutorial: [{ title: 'Image Generation', description: 'Prompt for a fast, high-quality image generation using 2.5 series.' }],
+        codeExamples: [{ title: 'Image Gen', language: 'typescript', code: `const res = await ai.models.generateContent({\n  model: 'gemini-2.5-flash-image',\n  contents: 'A neon blue parrot wearing sunglasses'\n});` }]
+      },
       'gemini-cli': {
         name: 'Gemini CLI',
         description: 'Frontier intelligence in your terminal. The official command-line interface for Google Gemini models, enabling seamless script integration and local AI automation.',
@@ -235,6 +244,51 @@ export const TRANSLATIONS: Record<LanguageCode, any> = {
         tutorial: [{ title: 'Smart Search', description: 'Use complex, reasoned queries to find precisely what you need.' }],
         codeExamples: [{ title: 'Mode Config', language: 'json', code: `{\n  "mode": "reasoned_search",\n  "multimodal": true,\n  "grounding": ["maps", "search"]\n}` }]
       },
+      'google-search-grounding': {
+        name: 'Google Search Grounding',
+        description: 'Connect Gemini to real-time world knowledge via Google Search. Essential for accuracy and up-to-date information retrieval.',
+        features: ['Real-time web access', 'Source verification', 'Fact-based grounding'],
+        useCases: ['News analysis', 'Real-time competitive research', 'Technical verification'],
+        advancedFeatures: ['Grounding chunks extraction', 'Source transparency'],
+        tutorial: [{ title: 'Search Tooling', description: 'Integrate the googleSearch tool into your generateContent calls.' }],
+        codeExamples: [{ title: 'Search Ground', language: 'typescript', code: `const res = await ai.models.generateContent({\n  model: 'gemini-3-pro-preview',\n  contents: 'What is the current stock price of Google?',\n  config: { tools: [{ googleSearch: {} }] }\n});` }]
+      },
+      'google-maps-grounding': {
+        name: 'Google Maps Grounding',
+        description: 'Ground AI responses in real-world location data. Provides place-based intelligence, navigation, and local discovery features.',
+        features: ['Location-aware responses', 'Place recommendations', 'POI verification'],
+        useCases: ['Travel assistants', 'Local business discovery', 'Geospatial AI agents'],
+        advancedFeatures: ['Latitude/Longitude precision', 'Place ID integration'],
+        tutorial: [{ title: 'Maps Tooling', description: 'Configure the googleMaps tool with user location for precise results.' }],
+        codeExamples: [{ title: 'Maps Ground', language: 'typescript', code: `const res = await ai.models.generateContent({\n  model: 'gemini-2.5-flash-latest',\n  contents: 'Find the best coffee shops near me',\n  config: { tools: [{ googleMaps: {} }] }\n});` }]
+      },
+      'gemini-2-5-flash-native-audio': {
+        name: 'Gemini 2.5 Flash Native Audio',
+        description: 'Process and understand raw audio data natively. No intermediate transcription needed for deep acoustic reasoning.',
+        features: ['Native audio reasoning', 'Emotion detection', 'Acoustic scene analysis'],
+        useCases: ['Audio sentiment analysis', 'Automated sound classification', 'Direct voice interface'],
+        advancedFeatures: ['Low-latency processing', 'Raw PCM understanding'],
+        tutorial: [{ title: 'Audio Pipeline', description: 'Stream audio data directly into the model for native processing.' }],
+        codeExamples: [{ title: 'Audio Call', language: 'typescript', code: `const res = await ai.models.generateContent({\n  model: 'gemini-2.5-flash-native-audio-preview',\n  contents: { parts: [{ inlineData: { mimeType: 'audio/pcm', data: base64Audio } }] }\n});` }]
+      },
+      'gemini-2-5-flash-tts': {
+        name: 'Gemini 2.5 Flash TTS',
+        description: 'State-of-the-art text-to-speech generation. Deliver natural, human-like voice experiences across multiple languages.',
+        features: ['Neural voice synthesis', 'Multi-speaker support', 'Prosody control'],
+        useCases: ['Narrative agents', 'Dynamic content voicing', 'Interactive voice response'],
+        advancedFeatures: ['Prebuilt voice configs', 'Emotional tone scaling'],
+        tutorial: [{ title: 'TTS Setup', description: 'Configure high-quality speech output for your application.' }],
+        codeExamples: [{ title: 'Voice Out', language: 'typescript', code: `const res = await ai.models.generateContent({\n  model: 'gemini-2.5-flash-preview-tts',\n  contents: 'Welcome to the future.',\n  config: { responseModalities: ['AUDIO'] }\n});` }]
+      },
+      'gemini-live': {
+        name: 'Gemini Live',
+        description: 'Real-time, low-latency multimodal interaction API. Enables seamless voice and vision conversations with Gemini.',
+        features: ['Sub-second latency', 'Bimodal interaction', 'Continuous session'],
+        useCases: ['Real-time tutors', 'Voice assistants', 'Live visual analysis'],
+        advancedFeatures: ['Session state management', 'Direct audio streaming'],
+        tutorial: [{ title: 'Live Connect', description: 'Establish a websocket connection for continuous interaction.' }],
+        codeExamples: [{ title: 'Live Stream', language: 'typescript', code: `const session = await ai.live.connect({\n  model: 'gemini-2.5-flash-native-audio-preview-12-2025',\n  config: { responseModalities: ['AUDIO'] }\n});` }]
+      },
       'notebook-llm': {
         name: 'NotebookLM',
         description: 'AI powered research assistant organizing ideas. Grounds knowledge in your specific documents to create an intelligent workspace.',
@@ -242,7 +296,7 @@ export const TRANSLATIONS: Record<LanguageCode, any> = {
         useCases: ['Literature reviews', 'Product requirement analysis', 'Learning complex new fields'],
         advancedFeatures: ['Multiple source types (PDF, Web, YouTube)', 'Collaborative notebooks'],
         tutorial: [{ title: 'Personal Grounding', description: 'Upload your research papers and ask for a cross-source summary.' }],
-        codeExamples: [{ title: 'Source Query', text: `Question: Based on the 3 PDFs I uploaded, what is the main risk factor for the project?` }]
+        codeExamples: [{ title: 'Source Query', language: 'text', code: `Question: Based on the 3 PDFs I uploaded, what is the main risk factor for the project?` }]
       },
       'pomelli': {
         name: 'Pomelli',

@@ -446,7 +446,7 @@ const App: React.FC = () => {
               <div className="flex flex-col md:flex-row items-center justify-between gap-8 relative">
                 <FlowItem icon={<Cpu className="text-google-blue" />} label="AI Studio" />
                 <FlowArrow />
-                <FlowItem icon={<Github className="text-white" />} label="GitHub" />
+                <FlowItem icon={<Github className="text-slate-900 dark:text-white" />} label="GitHub" />
                 <FlowArrow />
                 <FlowItem icon={<Rocket className="text-google-green" />} label="Vercel" />
               </div>
@@ -466,7 +466,7 @@ const App: React.FC = () => {
                 <FlowArrow />
                 <FlowItem icon={<Cpu className="text-google-blue" />} label="AI Studio" />
                 <FlowArrow />
-                <FlowItem icon={<Github className="text-white" />} label="GitHub" />
+                <FlowItem icon={<Github className="text-slate-900 dark:text-white" />} label="GitHub" />
                 <FlowArrow />
                 <FlowItem icon={<Rocket className="text-google-green" />} label="Vercel" />
               </div>
