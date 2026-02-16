@@ -29,6 +29,11 @@ export const TRANSLATIONS: Record<LanguageCode, any> = {
     allAdvancedFeatures: "All Capabilities",
     exportResults: "Export Search",
     clearInput: "Clear Search",
+    share: "Share",
+    copied: "Copied!",
+    deploymentFlowTitle: "Modern Deployment Pipelines",
+    flowPath1: "Standard Developer Path",
+    flowPath2: "Design-First Path",
     dir: "ltr",
     tools: {
       'gemini-3-flash': {
@@ -237,7 +242,7 @@ export const TRANSLATIONS: Record<LanguageCode, any> = {
         useCases: ['Literature reviews', 'Product requirement analysis', 'Learning complex new fields'],
         advancedFeatures: ['Multiple source types (PDF, Web, YouTube)', 'Collaborative notebooks'],
         tutorial: [{ title: 'Personal Grounding', description: 'Upload your research papers and ask for a cross-source summary.' }],
-        codeExamples: [{ title: 'Source Query', language: 'text', code: `Question: Based on the 3 PDFs I uploaded, what is the main risk factor for the project?` }]
+        codeExamples: [{ title: 'Source Query', text: `Question: Based on the 3 PDFs I uploaded, what is the main risk factor for the project?` }]
       },
       'pomelli': {
         name: 'Pomelli',

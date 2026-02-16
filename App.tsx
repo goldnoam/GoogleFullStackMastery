@@ -26,7 +26,11 @@ import {
   Terminal,
   MousePointer2,
   Settings2,
-  Cpu
+  Cpu,
+  Share2,
+  Linkedin,
+  Github,
+  Rocket
 } from 'lucide-react';
 import { GOOGLE_TOOLS, CATEGORIES } from './constants';
 import { CategoryType, GoogleTool, LanguageCode, GoogleToolContent } from './types';
@@ -56,9 +60,18 @@ const App: React.FC = () => {
   const [selectedToolId, setSelectedToolId] = useState<string | null>(null);
   const [isLangOpen, setIsLangOpen] = useState(false);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const [copiedId, setCopiedId] = useState<string | null>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   const t = TRANSLATIONS[lang];
+
+  // Deep linking logic
+  useEffect(() => {
+    const hash = window.location.hash.replace('#tool-', '');
+    if (hash && GOOGLE_TOOLS.some(tool => tool.id === hash)) {
+      setSelectedToolId(hash);
+    }
+  }, []);
 
   useEffect(() => {
     const html = document.documentElement;
@@ -77,11 +90,6 @@ const App: React.FC = () => {
     const metaDesc = document.querySelector('meta[name="description"]');
     if (metaDesc) {
       metaDesc.setAttribute("content", "Explore the Google ecosystem, AI tools, design frameworks, and scalable cloud solutions for developers.");
-    } else {
-      const meta = document.createElement('meta');
-      meta.name = "description";
-      meta.content = "Explore the Google ecosystem, AI tools, design frameworks, and scalable cloud solutions for developers.";
-      document.head.appendChild(meta);
     }
 
     // Programmatic Favicon
@@ -134,13 +142,13 @@ const App: React.FC = () => {
     });
   }, [selectedCategory, selectedLevel, selectedRelatedToolId, selectedFeature, selectedAdvancedFeature, searchQuery, lang]);
 
-  const searchSuggestions = useMemo(() => {
-    if (!searchQuery.trim()) return [];
-    return GOOGLE_TOOLS
-      .map(tool => getLocalizedTool(tool.id, lang).name)
-      .filter(name => name.toLowerCase().includes(searchQuery.toLowerCase()))
-      .slice(0, 5);
-  }, [searchQuery, lang]);
+  const handleShare = (e: React.MouseEvent, id: string) => {
+    e.stopPropagation();
+    const url = `${window.location.origin}${window.location.pathname}#tool-${id}`;
+    navigator.clipboard.writeText(url);
+    setCopiedId(id);
+    setTimeout(() => setCopiedId(null), 2000);
+  };
 
   const handleExport = () => {
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(filteredTools.map(tool => ({
@@ -158,9 +166,7 @@ const App: React.FC = () => {
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
     const text = e.dataTransfer.getData("text");
-    if (text) {
-      setSearchQuery(prev => prev + text);
-    }
+    if (text) setSearchQuery(prev => prev + text);
   };
 
   const toggleTheme = () => {
@@ -256,24 +262,6 @@ const App: React.FC = () => {
                 <Download size={20} />
               </button>
             </div>
-
-            {/* Autocomplete Dropdown */}
-            {isSearchFocused && searchSuggestions.length > 0 && (
-              <div className="absolute top-full left-0 right-0 mt-3 bg-white dark:bg-slate-900 rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] border border-slate-200 dark:border-slate-800 overflow-hidden z-[100] animate-in slide-in-from-top-4 duration-200">
-                <div className="p-2">
-                  {searchSuggestions.map((suggestion, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => setSearchQuery(suggestion)}
-                      className="w-full px-5 py-4 text-left rtl:text-right rounded-2xl hover:bg-google-blue/10 transition-all flex items-center gap-4 text-sm font-bold dark:text-white"
-                    >
-                      <Terminal size={16} className="text-google-blue" />
-                      {suggestion}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
           </div>
         </div>
 
@@ -326,9 +314,6 @@ const App: React.FC = () => {
              <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-google-blue/10 text-google-blue text-[12px] font-black uppercase tracking-[0.2em] border border-google-blue/20 shadow-xl">
               <Zap size={16} className="fill-current" /> Quantum Mastery Hub
             </div>
-            <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-emerald-500/10 text-emerald-500 text-[12px] font-black uppercase tracking-[0.2em] border border-emerald-500/20 shadow-xl">
-              <Trophy size={16} className="fill-current" /> {GOOGLE_TOOLS.length} Active Modules
-            </div>
           </div>
           <h2 className="text-6xl md:text-9xl font-display font-black tracking-tight dark:text-white theme-colorful:text-white leading-[1] bg-clip-text text-transparent bg-gradient-to-br from-slate-900 via-slate-700 to-slate-500 dark:from-white dark:via-slate-300 dark:to-slate-600 theme-colorful:from-white theme-colorful:to-purple-200">
             {t.subtitle}
@@ -367,9 +352,8 @@ const App: React.FC = () => {
           ))}
         </div>
 
-        {/* Secondary Search Filters (Level, Related, Feature, Advanced Feature) */}
+        {/* Secondary Search Filters */}
         <div className="flex flex-wrap items-center justify-center gap-4 mb-20 animate-in fade-in duration-700">
-           {/* Level Filter */}
            <div className="flex items-center gap-3 px-6 py-3 rounded-2xl bg-slate-200/50 dark:bg-slate-800/50 border dark:border-slate-700 shadow-lg">
               <Layers size={18} className="text-slate-400" />
               <span className="text-xs font-black uppercase tracking-widest text-slate-500 mr-2">{t.filterLevel}:</span>
@@ -389,123 +373,113 @@ const App: React.FC = () => {
                  ))}
               </div>
            </div>
-
-           {/* Feature Filter */}
-           <div className="flex items-center gap-3 px-6 py-3 rounded-2xl bg-slate-200/50 dark:bg-slate-800/50 border dark:border-slate-700 shadow-lg group">
-              <Sparkles size={18} className="text-slate-400 group-hover:text-google-yellow transition-colors" />
-              <span className="text-xs font-black uppercase tracking-widest text-slate-500 mr-2">{t.filterFeature}:</span>
-              <select 
-                value={selectedFeature} 
-                onChange={(e) => setSelectedFeature(e.target.value)}
-                className="bg-transparent text-[11px] font-black uppercase tracking-widest text-google-blue outline-none cursor-pointer pr-4 max-w-[150px]"
-              >
-                <option value="All">{t.allFeatures}</option>
-                {allAvailableFeatures.filter(f => f !== 'All').map(f => (
-                  <option key={f} value={f}>{f}</option>
-                ))}
-              </select>
-           </div>
-
-           {/* Advanced Feature Filter */}
-           <div className="flex items-center gap-3 px-6 py-3 rounded-2xl bg-slate-200/50 dark:bg-slate-800/50 border dark:border-slate-700 shadow-lg group">
-              <Settings2 size={18} className="text-slate-400 group-hover:text-google-red transition-colors" />
-              <span className="text-xs font-black uppercase tracking-widest text-slate-500 mr-2">{t.filterAdvancedFeature}:</span>
-              <select 
-                value={selectedAdvancedFeature} 
-                onChange={(e) => setSelectedAdvancedFeature(e.target.value)}
-                className="bg-transparent text-[11px] font-black uppercase tracking-widest text-google-blue outline-none cursor-pointer pr-4 max-w-[150px]"
-              >
-                <option value="All">{t.allAdvancedFeatures}</option>
-                {allAvailableAdvancedFeatures.filter(af => af !== 'All').map(af => (
-                  <option key={af} value={af}>{af}</option>
-                ))}
-              </select>
-           </div>
-
-           {/* Related Tool Filter */}
-           <div className="flex items-center gap-3 px-6 py-3 rounded-2xl bg-slate-200/50 dark:bg-slate-800/50 border dark:border-slate-700 shadow-lg group">
-              <LinkIcon size={18} className="text-slate-400 group-hover:text-google-blue transition-colors" />
-              <span className="text-xs font-black uppercase tracking-widest text-slate-500 mr-2">{t.filterRelated}:</span>
-              <select 
-                value={selectedRelatedToolId} 
-                onChange={(e) => setSelectedRelatedToolId(e.target.value)}
-                className="bg-transparent text-[11px] font-black uppercase tracking-widest text-google-blue outline-none cursor-pointer pr-4 max-w-[150px]"
-              >
-                <option value="All">All Connections</option>
-                {GOOGLE_TOOLS.map(tool => (
-                  <option key={tool.id} value={tool.id}>{getLocalizedTool(tool.id, lang).name}</option>
-                ))}
-              </select>
-           </div>
         </div>
 
-        <AdSenseSlot className="mb-24 h-40 shadow-inner" />
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-          {filteredTools.length > 0 ? (
-            filteredTools.map((tool, idx) => {
-              const content = getLocalizedTool(tool.id, lang);
-              const themeInfo = getCategoryTheme(tool.category);
-              return (
-                <div 
-                  key={tool.id} 
-                  onClick={() => setSelectedToolId(tool.id)}
-                  className={`vibrant-hover group cursor-pointer bg-white dark:bg-slate-900/80 theme-colorful:bg-white/20 rounded-[3.5rem] p-12 shadow-2xl border-2 transition-all flex flex-col relative overflow-hidden backdrop-blur-3xl ${themeInfo.border} animate-in fade-in slide-in-from-bottom-12 duration-700`}
-                >
-                  <div className="flex justify-between items-start mb-12">
-                    <div className="w-24 h-24 rounded-[2rem] flex items-center justify-center overflow-hidden shadow-2xl p-5 bg-white dark:bg-slate-950 theme-colorful:bg-white border dark:border-slate-800 transform group-hover:rotate-12 transition-transform duration-500">
-                      <img src={tool.icon} alt="" className="w-full h-full object-contain" />
-                    </div>
-                    <div className="flex flex-col items-end gap-3">
-                      <span className={`px-5 py-2 rounded-full text-[11px] font-black uppercase tracking-[0.2em] shadow-sm ${
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-32">
+          {filteredTools.map((tool) => {
+            const content = getLocalizedTool(tool.id, lang);
+            const themeInfo = getCategoryTheme(tool.category);
+            return (
+              <div 
+                key={tool.id} 
+                onClick={() => setSelectedToolId(tool.id)}
+                className={`vibrant-hover group cursor-pointer bg-white dark:bg-slate-900/80 theme-colorful:bg-white/20 rounded-[3.5rem] p-10 shadow-2xl border-2 transition-all flex flex-col relative overflow-hidden backdrop-blur-3xl ${themeInfo.border} animate-in fade-in slide-in-from-bottom-12 duration-700`}
+              >
+                <div className="flex justify-between items-start mb-10">
+                  <div className="w-20 h-20 rounded-[1.8rem] flex items-center justify-center overflow-hidden shadow-2xl p-4 bg-white dark:bg-slate-950 theme-colorful:bg-white border dark:border-slate-800 transform group-hover:rotate-12 transition-transform duration-500">
+                    <img src={tool.icon} alt="" className="w-full h-full object-contain" />
+                  </div>
+                  <div className="flex flex-col items-end gap-3">
+                    <div className="flex gap-2">
+                      <button 
+                        onClick={(e) => handleShare(e, tool.id)}
+                        className="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800/60 text-slate-500 hover:bg-google-blue hover:text-white transition-all relative group/share"
+                      >
+                        <Share2 size={16} />
+                        <span className={`absolute -top-10 left-1/2 -translate-x-1/2 px-3 py-1 bg-google-blue text-white text-[10px] font-black uppercase tracking-widest rounded-lg opacity-0 group-hover/share:opacity-100 transition-opacity pointer-events-none whitespace-nowrap`}>
+                          {copiedId === tool.id ? t.copied : t.share}
+                        </span>
+                      </button>
+                      <span className={`px-4 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] shadow-sm flex items-center ${
                         tool.level === 'Beginner' ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400' :
                         tool.level === 'Intermediate' ? 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400' :
                         'bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400'
                       }`}>
                         {tool.level}
                       </span>
-                      <span className="text-[11px] font-black uppercase tracking-[0.3em] text-slate-400 dark:text-slate-500 theme-colorful:text-slate-200">
-                        {tool.category}
-                      </span>
                     </div>
                   </div>
-                  
-                  <h3 className="text-4xl font-display font-black mb-6 dark:text-white theme-colorful:text-white group-hover:text-google-blue transition-colors duration-300">
-                    {content.name}
-                  </h3>
-                  <p className="text-slate-600 dark:text-slate-400 theme-colorful:text-slate-200 text-lg leading-relaxed mb-12 flex-grow font-medium">
-                    {content.description}
-                  </p>
-
-                  <div className="flex flex-wrap gap-3 mb-12">
-                    {content.features.slice(0, 3).map(f => (
-                      <span key={f} className="text-[11px] uppercase tracking-widest font-black bg-slate-100 dark:bg-slate-800/60 theme-colorful:bg-white/20 text-slate-600 dark:text-slate-300 theme-colorful:text-white px-5 py-2.5 rounded-2xl border border-slate-200/50 dark:border-slate-800 theme-colorful:border-white/20 shadow-sm">
-                        {f}
-                      </span>
-                    ))}
-                  </div>
-
-                  <div className="flex items-center justify-between mt-auto pt-10 border-t-2 border-slate-100 dark:border-slate-800/50 theme-colorful:border-white/10">
-                    <span className="flex items-center gap-4 text-md font-black text-google-blue group-hover:gap-7 transition-all uppercase tracking-[0.2em] theme-colorful:text-white">
-                      {t.startTutorial} <ArrowRight size={24} className="rtl:rotate-180" />
-                    </span>
-                    <Star size={24} className="text-slate-200 dark:text-slate-700 theme-colorful:text-white/40 group-hover:text-google-yellow group-hover:fill-current transition-all transform group-hover:scale-125" />
-                  </div>
-
-                  <div className={`absolute bottom-[-10%] right-[-10%] w-32 h-32 blur-[60px] opacity-0 group-hover:opacity-40 transition-opacity duration-700 ${themeInfo.color}`} />
                 </div>
-              );
-            })
-          ) : (
-            <div className="col-span-full py-40 text-center">
-               <div className="mb-10 flex justify-center">
-                 <Filter size={80} className="text-slate-300 dark:text-slate-700 theme-colorful:text-white/40 animate-bounce" />
-               </div>
-               <p className="text-4xl font-display font-black dark:text-white theme-colorful:text-white mb-6">Oops! No tools matching current filters</p>
-               <button onClick={resetAllFilters} className="px-12 py-5 bg-gradient-to-r from-google-blue to-indigo-600 text-white rounded-3xl font-black text-lg uppercase tracking-widest shadow-2xl hover:scale-105 transition-all">Reset All Filters</button>
-            </div>
-          )}
+                
+                <h3 className="text-3xl font-display font-black mb-4 dark:text-white theme-colorful:text-white group-hover:text-google-blue transition-colors duration-300">
+                  {content.name}
+                </h3>
+                <p className="text-slate-600 dark:text-slate-400 theme-colorful:text-slate-200 text-base leading-relaxed mb-10 flex-grow font-medium">
+                  {content.description}
+                </p>
+
+                <div className="flex items-center justify-between mt-auto pt-8 border-t-2 border-slate-100 dark:border-slate-800/50 theme-colorful:border-white/10">
+                  <span className="flex items-center gap-4 text-xs font-black text-google-blue group-hover:gap-6 transition-all uppercase tracking-[0.2em] theme-colorful:text-white">
+                    {t.startTutorial} <ArrowRight size={20} className="rtl:rotate-180" />
+                  </span>
+                  <Star size={20} className="text-slate-200 dark:text-slate-700 theme-colorful:text-white/40 group-hover:text-google-yellow group-hover:fill-current transition-all transform group-hover:scale-125" />
+                </div>
+              </div>
+            );
+          })}
         </div>
+
+        {/* Website Creation Flow Section */}
+        <section className="mb-40 space-y-20 animate-in fade-in duration-1000">
+          <div className="text-center space-y-4">
+             <h3 className="text-4xl font-display font-black dark:text-white theme-colorful:text-white tracking-tight">
+                {t.deploymentFlowTitle}
+             </h3>
+             <p className="text-slate-500 dark:text-slate-400 font-bold uppercase tracking-widest text-xs">Architecting the future of the web</p>
+          </div>
+
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-16">
+            {/* Path 1: Standard AI Dev */}
+            <div className="p-12 rounded-[3.5rem] bg-slate-100 dark:bg-slate-900/40 theme-colorful:bg-white/5 border-2 border-slate-200 dark:border-slate-800 theme-colorful:border-white/10 relative overflow-hidden group">
+              <div className="absolute top-0 right-0 p-8 text-[10px] font-black uppercase tracking-[0.4em] text-slate-400">Path Alpha</div>
+              <h4 className="text-2xl font-black mb-12 dark:text-white">{t.flowPath1}</h4>
+              <div className="flex flex-col md:flex-row items-center justify-between gap-8 relative">
+                <FlowItem icon={<Cpu className="text-google-blue" />} label="AI Studio" />
+                <FlowArrow />
+                <FlowItem icon={<Github className="text-white" />} label="GitHub" />
+                <FlowArrow />
+                <FlowItem icon={<Rocket className="text-google-green" />} label="Vercel" />
+              </div>
+              <div className="mt-12 p-6 rounded-3xl bg-google-blue/5 border border-google-blue/10">
+                <p className="text-xs font-bold text-slate-500 dark:text-slate-400 leading-relaxed">
+                  Best for: Rapid prototyping of AI-native applications using prompt engineering and direct API deployment.
+                </p>
+              </div>
+            </div>
+
+            {/* Path 2: Advanced Design AI */}
+            <div className="p-12 rounded-[3.5rem] bg-slate-100 dark:bg-slate-900/40 theme-colorful:bg-white/5 border-2 border-slate-200 dark:border-slate-800 theme-colorful:border-white/10 relative overflow-hidden group">
+              <div className="absolute top-0 right-0 p-8 text-[10px] font-black uppercase tracking-[0.4em] text-slate-400">Path Omega</div>
+              <h4 className="text-2xl font-black mb-12 dark:text-white">{t.flowPath2}</h4>
+              <div className="flex flex-col md:flex-row items-center justify-between gap-6 relative">
+                <FlowItem icon={<Palette className="text-rose-500" />} label="Stitch" />
+                <FlowArrow />
+                <FlowItem icon={<Cpu className="text-google-blue" />} label="AI Studio" />
+                <FlowArrow />
+                <FlowItem icon={<Github className="text-white" />} label="GitHub" />
+                <FlowArrow />
+                <FlowItem icon={<Rocket className="text-google-green" />} label="Vercel" />
+              </div>
+               <div className="mt-12 p-6 rounded-3xl bg-rose-500/5 border border-rose-500/10">
+                <p className="text-xs font-bold text-slate-500 dark:text-slate-400 leading-relaxed">
+                  Best for: Professional-grade UI/UX with AI logic, leveraging Google Stitch for visual components and Gemini for logic.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <AdSenseSlot className="mb-24 h-40 shadow-inner" />
       </main>
 
       <footer className="bg-white/80 dark:bg-slate-950/90 theme-colorful:bg-slate-950/40 border-t dark:border-slate-900 theme-colorful:border-white/10 py-32 px-4 lg:px-12 mt-40 relative overflow-hidden backdrop-blur-2xl">
@@ -520,6 +494,7 @@ const App: React.FC = () => {
             </p>
             <div className="flex gap-8">
               <a href="mailto:goldnoamai@gmail.com" className="w-16 h-16 rounded-3xl bg-slate-100 dark:bg-slate-900 theme-colorful:bg-white/10 flex items-center justify-center hover:bg-google-red hover:text-white transition-all text-slate-500 dark:text-slate-400 theme-colorful:text-white shadow-xl"><Mail size={32} /></a>
+              <a href="https://www.linkedin.com/in/noamgold/" target="_blank" rel="noopener noreferrer" className="w-16 h-16 rounded-3xl bg-slate-100 dark:bg-slate-900 theme-colorful:bg-white/10 flex items-center justify-center hover:bg-google-blue hover:text-white transition-all text-slate-500 dark:text-slate-400 theme-colorful:text-white shadow-xl"><Linkedin size={32} /></a>
               <a href="#" className="w-16 h-16 rounded-3xl bg-slate-100 dark:bg-slate-900 theme-colorful:bg-white/10 flex items-center justify-center hover:bg-google-blue hover:text-white transition-all text-slate-500 dark:text-slate-400 theme-colorful:text-white shadow-xl"><Globe size={32} /></a>
             </div>
           </div>
@@ -529,8 +504,6 @@ const App: React.FC = () => {
             <ul className="space-y-6 text-xl text-slate-500 dark:text-slate-400 theme-colorful:text-slate-200 font-bold">
               <li><a href="https://ai.google.dev" className="hover:text-google-blue inline-block transition-colors">AI Academy 2026</a></li>
               <li><a href="https://idx.dev" className="hover:text-google-red inline-block transition-colors">Project IDX Core</a></li>
-              <li><a href="https://firebase.google.com" className="hover:text-google-yellow inline-block transition-colors">Cloud Functions</a></li>
-              <li><a href="https://notebooklm.google.com" className="hover:text-google-green inline-block transition-colors">NotebookLM Insights</a></li>
             </ul>
           </div>
 
@@ -551,14 +524,15 @@ const App: React.FC = () => {
             (C) Noam Gold AI 2026 | BUILT FOR THE BOLD | SEND FEEDBACK: goldnoamai@gmail.com
           </p>
         </div>
-
-        <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-google-blue/5 blur-[100px] rounded-full pointer-events-none" />
       </footer>
 
       {selectedTool && (
         <ToolDetailsModal 
           tool={selectedTool} 
-          onClose={() => setSelectedToolId(null)} 
+          onClose={() => {
+            setSelectedToolId(null);
+            window.location.hash = '';
+          }} 
           onNavigateToTool={(tool) => setSelectedToolId(tool.id)}
           lang={lang}
         />
@@ -566,5 +540,20 @@ const App: React.FC = () => {
     </div>
   );
 };
+
+const FlowItem: React.FC<{ icon: React.ReactNode, label: string }> = ({ icon, label }) => (
+  <div className="flex flex-col items-center gap-4 group/item">
+    <div className="w-20 h-20 rounded-[1.8rem] bg-white dark:bg-slate-950 flex items-center justify-center shadow-2xl border-2 border-slate-200 dark:border-slate-800 group-hover/item:scale-110 group-hover/item:border-google-blue transition-all duration-500 relative z-10">
+      {React.cloneElement(icon as React.ReactElement, { size: 32 })}
+    </div>
+    <span className="text-[11px] font-black uppercase tracking-[0.3em] text-slate-500 dark:text-slate-300">{label}</span>
+  </div>
+);
+
+const FlowArrow: React.FC = () => (
+  <div className="hidden md:flex items-center justify-center w-12 h-12 text-slate-300 dark:text-slate-800 animate-pulse">
+    <ChevronRight size={32} />
+  </div>
+);
 
 export default App;
